@@ -1,0 +1,53 @@
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #151515;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    padding: 4rem 4rem;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 3rem;
+	font-size: 1.5rem;
+	font-weight: 500;
+	letter-spacing: 0.1rem;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 50px;
+}
+
+.form-title {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin: 0;
+}
+
+.form-subtitle {
+    font-size: 1.2rem;
+    font-weight: 200;
+    color: var(--text-color);
+}
+
+label {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.register-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer !important;
+}
