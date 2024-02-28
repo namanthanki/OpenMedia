@@ -9,7 +9,7 @@ import ChatsPage from "./pages/ChatsPage.jsx";
 import RootLayout from "./routes/RootLayout.jsx";
 import "./index.css";
 
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 const router = createBrowserRouter([
 	isLoggedIn ? {

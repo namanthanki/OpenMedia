@@ -7,11 +7,14 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
+            trim: true,
         },
         email: {
             type: String,
             required: true,
             unique: true,
+            trim: true,
+            lowercase: true,
         },
         password: {
             type: String,
@@ -21,17 +24,35 @@ const userSchema = new Schema(
         firstName: {
             type: String,
             required: true,
+            trim: true,
         },
         lastName: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        bio: {
+            type: String,
+            trim: true,
+            maxLength: 250,
+            default: "",
+        },
+        dateOfBirth: {
+            type: Date,
+            required: true,
+        },
+        gender: {
             type: String,
             required: true,
         },
         profilePicture: {
             type: String,
+            trim: true,
             default: "",
         },
         coverPicture: {
             type: String,
+            trim: true,
             default: "",
         },
         followers: [
@@ -41,6 +62,18 @@ const userSchema = new Schema(
             },
         ],
         followings: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        blockedUsers: [
             {
                 type: Schema.Types.ObjectId,
                 ref: "User",

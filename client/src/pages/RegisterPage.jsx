@@ -1,13 +1,12 @@
-// import Card from "../components/Card";
 import { Link } from "react-router-dom";
-import "./styles/register.css";
+import "./styles/auth-defaults.css";
+import "./styles/auth-forms.css";
 
 const RegisterPage = () => {
 	return (
 		<div>
 			<div className="auth-container">
 				<div className="auth-wrapper">
-					{/* <Card> */}
 					<h1 className="form-title">Register</h1>
 					<p className="form-subtitle">
 						Already have an account?{" "}
@@ -26,7 +25,22 @@ const RegisterPage = () => {
 									name="firstName"
 								/>
 							</div>
-              <div className="form-cell">
+							<div className="form-cell">
+								<label htmlFor="lastName">Last Name</label>
+								<input
+									type="text"
+									id="lastName"
+									name="lastName"
+								/>
+							</div>
+						</div>
+
+						<div className="form-row">
+							<div className="form-cell">
+								<label htmlFor="email">Email</label>
+								<input type="email" id="email" name="email" />
+							</div>
+							<div className="form-cell">
 								<label htmlFor="username">Username</label>
 								<input
 									type="text"
@@ -35,6 +49,7 @@ const RegisterPage = () => {
 								/>
 							</div>
 						</div>
+
 						<div className="form-row">
 							<div className="form-cell">
 								<label htmlFor="password">Password</label>
@@ -44,18 +59,83 @@ const RegisterPage = () => {
 									name="password"
 								/>
 							</div>
+							<div className="form-cell">
+								<label htmlFor="confirmPassword">
+									Confirm Password
+								</label>
+								<input
+									type="password"
+									id="confirmPassword"
+									name="confirmPassword"
+								/>
+							</div>
 						</div>
+
+						<div className="form-row">
+							<div className="form-cell full">
+								<label htmlFor="dateOfBirth">
+									Date of Birth
+								</label>
+								<input
+									className="date-input"
+									type="date"
+									name="dateOfBirth"
+									id="dateOfBirth"
+								/>
+							</div>
+						</div>
+
 						<div className="form-row">
 							<div className="form-cell">
+								<label className="gender-label">
+									Gender
+								</label>
+									<div className="form-cell full">
+										<div className="form-row">
+											<div className="form-cell radio-item">
+												<input
+													type="radio"
+													id="male"
+													name="gender"
+													value="m"
+													checked={true}
+												/>
+												<label
+													className="radio-label"
+													htmlFor="male"
+												>
+													Male
+												</label>
+											</div>
+											<div className="form-cell radio-item">
+												<input
+													type="radio"
+													id="female"
+													name="gender"
+													value="f"
+												/>
+												<label
+													className="radio-label"
+													htmlFor="female"
+												>
+													Female
+												</label>
+											</div>
+										</div>
+									</div>
+							</div>
+						</div>
+
+						<div className="form-row">
+							<div className="form-cell full">
 								<button className="submit-btn" type="submit">
-									Login
+									Register
 								</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
-			{/* </Card> */}
 		</div>
 	);
 };

@@ -1,13 +1,13 @@
 // import Card from "../components/Card";
 import { Link } from "react-router-dom";
-import "./styles/login.css";
+import "./styles/auth-defaults.css";
+import "./styles/auth-forms.css";
 
 const LoginPage = () => {
 	return (
 		<div>
 			<div className="auth-container">
 				<div className="auth-wrapper">
-					{/* <Card> */}
 					<h1 className="form-title">Login</h1>
 					<p className="form-subtitle">
 						Don&#39;t have an account?{" "}
@@ -38,7 +38,7 @@ const LoginPage = () => {
 							</div>
 						</div>
 						<div className="form-row">
-							<div className="form-cell">
+							<div className="form-cell full">
 								<button className="submit-btn" type="submit">
 									Login
 								</button>
@@ -47,7 +47,6 @@ const LoginPage = () => {
 					</form>
 				</div>
 			</div>
-			{/* </Card> */}
 		</div>
 	);
 };
