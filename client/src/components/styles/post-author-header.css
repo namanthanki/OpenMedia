@@ -1,0 +1,24 @@
+.post-author-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.author-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.author-username {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 100;
+}
+
+.author-name {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: var(--text-color);
+}

@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import WelcomePage from "./pages/WelcomePage.jsx";
 import ChatsPage from "./pages/ChatsPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import RootLayout from "./routes/RootLayout.jsx";
 import "./index.css";
 
@@ -18,6 +19,8 @@ const router = createBrowserRouter([
 		children: [
 			{ path: "/", element: <App /> },
 			{ path: "/chats", element: <ChatsPage /> },
+			{ path: "/profile",	element: <ProfilePage /> },
+			{ path: "/chats/:chatId", element: <ChatsPage /> }
 		],
 	} : {
 		path: "/",
@@ -30,6 +33,10 @@ const router = createBrowserRouter([
 	{
 		path: "/register",
 		element: <RegisterPage />,
+	},
+	{
+		path: "*",
+		element: <h1>404 Not Found</h1>,
 	},
 ]);
 

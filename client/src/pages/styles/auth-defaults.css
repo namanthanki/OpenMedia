@@ -68,8 +68,8 @@ body {
 	--margin-btn-gap: 1em;
 	--width-input-border: 2px;
 	--width-inputs: 300px;
-	--width-textarea: 450px;
-	--height-textarea: 250px;
+	--width-textarea: 400px;
+	--height-textarea: 200px;
 	--radius-inputs: 0.5em;
 	--opacity-input-disabled: 0.5;
 	--transition-duration-inputs: 250ms;

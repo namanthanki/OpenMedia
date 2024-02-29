@@ -1,0 +1,163 @@
+/* .profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 8rem 2%;
+} */
+
+.profile-wrapper {
+	padding-top: 8rem;
+	padding-bottom: 5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 2rem;
+}
+
+.profile-container {
+	display: flex;
+	max-width: 700px;
+	margin: 0 auto;
+	background-color: #151515;
+	border-radius: 1rem;
+}
+
+.user-info-container {
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.user-cover-image {
+	position: relative;
+	height: 250px;
+	overflow: hidden;
+}
+
+.user-cover-image img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
+.user-image {
+	position: absolute;
+	top: 47%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.user-image img {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+}
+
+.user-statistics {
+	display: flex;
+	justify-content: space-around;
+	padding: 20px 0;
+	/* border-bottom: 1px solid #eee; */
+}
+
+.user-stat {
+	text-align: center;
+}
+
+.stat-count {
+	font-size: 24px;
+	margin: 0;
+}
+
+.stat-label {
+	margin: 0;
+	color: #888;
+}
+
+.user-profile-actions {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 20px 0;
+}
+
+.edit-profile,
+.share-profile {
+	background-color: var(--accent-color);
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+
+.user-details {
+	display: flex;
+	padding: 20px;
+}
+
+.header-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.profile-actions {
+	display: flex;
+	gap: 1rem;
+}
+
+.edit-action,
+.share-action,
+.more-action {
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+.user-name {
+	margin: 0;
+	font-size: 2.5rem;
+	font-weight: 700;
+}
+
+.user-username {
+	margin: 5px 0;
+	font-size: 1.5rem;
+	font-weight: 300;
+	color: #888;
+}
+
+.user-bio {
+	margin: 10px 0 0;
+	font-size: 1.5rem;
+	font-weight: 400;
+	text-align: justify;
+	letter-spacing: 0.1rem;
+	word-spacing: 0.5rem;
+	line-height: 2rem;
+	color: #555;
+}
+
+.user-profile-posts {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	justify-content: center;
+}
+
+.posts-list-title h2 {
+    margin: 0;
+	font-size: 3rem;
+	font-weight: 700;
+	color: var(--accent-color);
+    text-align: center;
+}

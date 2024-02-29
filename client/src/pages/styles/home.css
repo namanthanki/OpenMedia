@@ -1,0 +1,9 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 8rem 2%;
+    /* box-sizing: border-box; */
+}

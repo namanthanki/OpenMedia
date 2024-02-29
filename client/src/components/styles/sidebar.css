@@ -1,0 +1,32 @@
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 15%;
+    height: 100vh;
+    padding: 5% 2%;
+    z-index: 9;
+    box-sizing: border-box;
+    background-color: var(--background-color);
+    transition: 0.3s ease;
+}
+
+.sidebar-container.open {
+    left: 0;
+    transition: 0.3s ease;
+}
+
+.sidebar-item {
+    list-style: none;
+    font-size: 1.5rem;
+    padding: 2rem 0rem;
+}
+
+.sidebar-item a {
+    text-decoration: none;
+    color: var(--accent-color);
+}

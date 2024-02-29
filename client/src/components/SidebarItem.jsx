@@ -1,18 +1,13 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const SidebarItem = ({ title, children }) => {
-	const [isOpen, setIsOpen] = useState(false);
-
-	const toggleSubMenu = () => {
-		setIsOpen(!isOpen);
-	};
-
+const SidebarItem = ({ title, url }) => {
 	return (
 		<div>
-			<div onClick={toggleSubMenu} style={{ cursor: "pointer" }}>
-				{title} {isOpen ? " ▲" : " ▼"}
+			<div className="sidebar-item">
+				<li>
+					<Link to={`/${url}`}>{title}</Link>
+				</li>
 			</div>
-			{isOpen && <div>{children}</div>}
 		</div>
 	);
 };
