@@ -32,6 +32,22 @@ const postsListData = [
 			comments: 5,
 			shares: 2,
 		},
+		comments: [
+			{
+				id: 1,
+				userImage: "/images/author-placeholder.png",
+				username: "rajesh.th",
+				content: "This is a comment",
+				createdAt: "2021-09-01T12:00:00Z",
+			},
+			{
+				id: 2,
+				userImage: "/images/author-placeholder.png",
+				username: "bharti.th",
+				content: "This is a comment",
+				createdAt: "2021-09-01T12:00:00Z",
+			},
+		],
 	},
 
 	{
@@ -51,6 +67,22 @@ const postsListData = [
 			comments: 5,
 			shares: 2,
 		},
+		comments: [
+			{
+				id: 1,
+				userImage: "/images/author-placeholder.png",
+				username: "naman.th",
+				content: "This is a comment",
+				createdAt: "2021-09-01T12:00:00Z",
+			},
+			{
+				id: 2,
+				userImage: "/images/author-placeholder.png",
+				username: "bharti.th",
+				content: "This is a comment",
+				createdAt: "2021-09-01T12:00:00Z",
+			},
+		],
 	},
 
 	{
@@ -70,5 +102,21 @@ const postsListData = [
 			comments: 5,
 			shares: 2,
 		},
+		comments: [
+			{
+				id: 1,
+				userImage: "/images/author-placeholder.png",
+				username: "naman.th",
+				content: "This is a comment",
+				createdAt: "2021-09-01T12:00:00Z",
+			},
+			{
+				id: 2,
+				userImage: "/images/author-placeholder.png",
+				username: "rajesh.th",
+				content: "This is a comment",
+				createdAt: "2021-09-01T12:00:00Z",
+			},
+		],
 	},
 ];

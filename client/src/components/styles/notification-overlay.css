@@ -1,0 +1,53 @@
+.notification-overlay {
+	position: fixed;
+	top: 8%;
+	right: 5%;
+	width: 300px;
+	background-color: #151515;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 1rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 2rem;
+	z-index: 1001;
+}
+
+.notification-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.notification-header h3 {
+	font-size: 18px;
+	margin: 0;
+}
+
+.close-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+    background-color: var(--accent-color);
+}
+
+.notification-list {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.notification-item {
+	margin-bottom: 10px;
+}
+
+.notification-item p {
+	margin: 0;
+}
+
+.notification-message {
+    font-size: 14px;
+}
+
+.timestamp {
+	font-size: 12px;
+	color: #888;
+}

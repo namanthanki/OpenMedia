@@ -6,10 +6,17 @@ import {
 	MdShare,
 } from "react-icons/md";
 import PostAuthorHeader from "./PostAuthorHeader";
-
+import { useState } from "react";
 import "./styles/user-post.css";
+import Comments from "./Comments";
 
 const UserPost = ({ postData }) => {
+	const [showComments, setShowComments] = useState(false);
+
+	const toggleComments = () => {
+		setShowComments((prevState) => !prevState);
+	};
+
 	return (
 		<div className="post">
 			<div className="post-header">
@@ -35,7 +42,7 @@ const UserPost = ({ postData }) => {
 			<div className="post-footer">
 				<div className="post-actions">
 					<MdFavorite className="post-like-action" />
-					<MdComment className="post-comment-action" />
+					<MdComment className="post-comment-action" onClick={toggleComments} />
 					<MdRepeat className="post-repost-action" />
 					<MdShare className="post-share-action" />
 				</div>
@@ -54,6 +61,7 @@ const UserPost = ({ postData }) => {
 					Shares
 				</div>
 			</div>
+			{showComments && <Comments commentsListData={postData.comments} />}
 		</div>
 	);
 };

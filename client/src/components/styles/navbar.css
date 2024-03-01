@@ -24,13 +24,14 @@
 	font-size: 2rem;
 	font-weight: 700;
 	color: var(--accent-color);
+	cursor: pointer !important;
 }
 
 .nav-links {
 	display: flex;
 	justify-content: center;
-    gap: 2rem;
-    font-size: 2rem;
+	gap: 2rem;
+	font-size: 2rem;
 	list-style-type: none;
 	text-decoration: none;
 }
@@ -38,6 +39,10 @@
 .nav-links a {
 	color: var(--text-color);
 	text-decoration: none;
+}
+
+.nav-icon {
+	cursor: pointer !important;
 }
 
 .sidebar-btn {

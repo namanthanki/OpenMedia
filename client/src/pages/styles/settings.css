@@ -1,0 +1,49 @@
+.settings-page {
+	max-width: 700px;
+    padding: 8rem 2%;
+    padding-bottom: 2rem;
+	margin: 0 auto;
+}
+
+.settings-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.settings-category {
+	margin-bottom: 20px;
+}
+
+.settings-category h3 {
+    font-size: 2rem;
+	margin-bottom: 10px;
+}
+
+.setting {
+	margin-bottom: 15px;
+}
+
+.setting label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.setting input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+.setting input[type="text"],
+.setting input[type="email"],
+.setting textarea,
+.setting select {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.setting select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
