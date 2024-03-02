@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 
@@ -36,9 +37,11 @@ const Comments = ({ commentsListData }) => {
 					<Comment commentData={commentData} key={commentData.id} />
 				))}
 			</div>
-			<button className="view-more-comments-btn">
-				View More Comments
-			</button>
+			<Link to="/all-comments" state={commentsListData}>
+				<button className="view-more-comments-btn">
+					View More Comments
+				</button>
+			</Link>
 		</div>
 	);
 };

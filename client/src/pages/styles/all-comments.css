@@ -1,0 +1,49 @@
+.comment {
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.comment-header {
+	display: flex;
+	align-items: center;
+}
+
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.username {
+	margin: 0;
+}
+
+.timestamp {
+	color: #888;
+	margin: 0;
+}
+
+.comment-text {
+	margin-top: 5px;
+}
+
+.comment-actions {
+	margin-top: 10px;
+}
+
+.replies {
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+.all-comments-page {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.all-comments-page h2 {
+	margin-bottom: 20px;
+}

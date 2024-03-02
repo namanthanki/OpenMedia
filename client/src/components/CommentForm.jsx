@@ -22,7 +22,6 @@ const CommentForm = ({ onSubmit }) => {
 				value={text}
 				onChange={handleChange}
 				placeholder="Write a comment..."
-				rows={3}
 				required
 			></textarea>
 			<MdSend

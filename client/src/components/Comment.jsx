@@ -1,4 +1,13 @@
+import { useState } from "react";
+
 const Comment = ({ commentData }) => {
+	const [showReplies, setShowReplies] = useState(false);
+
+	const toggleReplies = () => {
+		console.log(commentData.replies);
+		setShowReplies((prevState) => !prevState);
+	};
+
 	return (
 		<div className="comment-container">
 			<img
@@ -14,6 +23,21 @@ const Comment = ({ commentData }) => {
 					</p>
 				</div>
 				<p className="comment-text">{commentData.content}</p>
+				<div className="comment-actions">
+					{commentData.replies && (
+						<button onClick={toggleReplies}>
+							{showReplies ? "Hide" : "Show"} Replies
+						</button>
+					)}
+					<button>Reply</button>
+				</div>
+				{showReplies && (
+					<div className="replies-container">
+						{commentData.replies.map((reply) => (
+							<Comment key={reply.id} commentData={reply} />
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);

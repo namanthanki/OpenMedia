@@ -46,6 +46,22 @@ const postsListData = [
 				username: "bharti.th",
 				content: "This is a comment",
 				createdAt: "2021-09-01T12:00:00Z",
+				replies: [
+					{
+						id: 1,
+						userImage: "/images/author-placeholder.png",
+						username: "rajesh.th",
+						content: "This is a reply",
+						createdAt: "2021-09-01T12:00:00Z",
+					},
+					{
+						id: 2,
+						userImage: "/images/author-placeholder.png",
+						username: "rajesh.th",
+						content: "This is a reply",
+						createdAt: "2021-09-01T12:00:00Z",
+					},
+				],
 			},
 		],
 	},
@@ -74,6 +90,38 @@ const postsListData = [
 				username: "naman.th",
 				content: "This is a comment",
 				createdAt: "2021-09-01T12:00:00Z",
+				replies: [
+					{
+						id: 1,
+						userImage: "/images/author-placeholder.png",
+						username: "rajesh.th",
+						content: "This is a reply",
+						createdAt: "2021-09-01T12:00:00Z",
+					},
+					{
+						id: 2,
+						userImage: "/images/author-placeholder.png",
+						username: "rajesh.th",
+						content: "This is a reply",
+						createdAt: "2021-09-01T12:00:00Z",
+						replies: [
+							{
+								id: 1,
+								userImage: "/images/author-placeholder.png",
+								username: "naman.th",
+								content: "This is a reply",
+								createdAt: "2021-09-01T12:00:00Z",
+							},
+							{
+								id: 2,
+								userImage: "/images/author-placeholder.png",
+								username: "naman.th",
+								content: "This is a reply",
+								createdAt: "2021-09-01T12:00:00Z",
+							},
+						],
+					},
+				],
 			},
 			{
 				id: 2,
@@ -109,6 +157,22 @@ const postsListData = [
 				username: "naman.th",
 				content: "This is a comment",
 				createdAt: "2021-09-01T12:00:00Z",
+				replies: [
+					{
+						id: 1,
+						userImage: "/images/author-placeholder.png",
+						username: "rajesh.th",
+						content: "This is a reply",
+						createdAt: "2021-09-01T12:00:00Z",
+					},
+					{
+						id: 2,
+						userImage: "/images/author-placeholder.png",
+						username: "rajesh.th",
+						content: "This is a reply",
+						createdAt: "2021-09-01T12:00:00Z",
+					},
+				],
 			},
 			{
 				id: 2,

@@ -10,6 +10,7 @@
 	import SettingsPage from "./pages/SettingsPage.jsx";
 	import RootLayout from "./routes/RootLayout.jsx";
 	import "./index.css";
+import AllCommentsPage from "./pages/AllCommentsPage.jsx";
 
 	const isLoggedIn = true;
 
@@ -22,7 +23,8 @@
 				{ path: "/chats", element: <ChatsPage /> },
 				{ path: "/profile",	element: <ProfilePage /> },
 				{ path: "/chats/:chatId", element: <ChatsPage /> },
-				{ path: "/settings", element: <SettingsPage /> }
+				{ path: "/settings", element: <SettingsPage /> },
+				{ path: "/all-comments", element: <AllCommentsPage /> }
 			],
 		} : {
 			path: "/",
