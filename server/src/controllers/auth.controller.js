@@ -1,8 +1,9 @@
 import AuthService from "../services/auth.service.js";
-import vine, { errors } from "@vinejs/vine";
-import { registerSchema, loginSchema } from "../validations/auth.validation.js";
-import { User } from "../models/user.model.js";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import vine, { errors } from "@vinejs/vine";
+import { registerSchema, loginSchema, forgotPasswordSchema } from "../validations/auth.validation.js";
+import { User } from "../models/user.model.js";
 
 class AuthController {
     static async register(req, res) {
@@ -109,20 +110,20 @@ class AuthController {
     static async refreshToken(req, res) {
         try {
             const incomingRefreshToken =
-                req.cookies?.incomingRefreshToken.split(" ")[1] || req.header("Authorization")?.split(" ")[1];
+                req.cookies?.refreshToken.split(" ")[1] || req.header("Authorization")?.split(" ")[1];
             if (!incomingRefreshToken) {
                 return res.status(401).json({ message: "Unauthorized" });
             }
 
             const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-            const user = await User.findById(decoded?.sub).select("-password -refreshToken");
+            const user = await User.findById(decoded?.sub).select("-password");
 
             if (!user) {
                 return res.status(404).json({ message: "Invalid Refresh Token" });
             }
 
-            if (user?.refreshToken !== refreshToken) {
+            if (user?.refreshToken !== incomingRefreshToken) {
                 return res.status(401).json({ message: "Unauthorized" });
             }
 
@@ -157,6 +158,7 @@ class AuthController {
                     message: "Access Token refreshed successfully",
                 });
         } catch (error) {
+            console.error(error);
             res.status(500).json({
                 message: "Error occurred while refreshing the Access Token",
                 error: error.message,
@@ -165,14 +167,14 @@ class AuthController {
     }
 
     static async changePassword(req, res) {
-        const { oldPassword, newPassword, confirmNewPassword } = req.body;
+        const data = req.body;
         try {
-            if (newPassword !== confirmNewPassword) {
-                return res.status(400).json({ message: "Passwords do not match" });
-            }
+            const validator = vine.compile(forgotPasswordSchema);
+            const output = await validator.validate(data);
 
-            const user = await User.findById(req.user?._id);
+            const { oldPassword, newPassword } = output;
 
+            const user = await User.findById(req.user?._id).select("+password");
             const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
 
             if (!isPasswordCorrect) {
@@ -180,18 +182,23 @@ class AuthController {
             }
 
             if (oldPassword === newPassword) {
-                return res.status(400).json({ 
-                    message: "New password cannot be the same as the old password" 
+                return res.status(400).json({
+                    message: "New password cannot be the same as the old password",
                 });
             }
 
-            hashedPassword = await bcrypt.hash(newPassword, 12);
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
             user.password = hashedPassword;
 
             await user.save({ validateBeforeSave: false });
 
             res.status(200).json({ message: "Password changed successfully" });
         } catch (error) {
+            console.error(error);
+            if (error instanceof errors.E_VALIDATION_ERROR) {
+                return res.status(400).json({ message: error.messages });
+            }
+
             res.status(500).json({
                 message: "Error occurred while changing the password",
                 error: error.message,
