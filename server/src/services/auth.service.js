@@ -8,13 +8,13 @@ class AuthService {
         try {
             const userExists = await User.findOne({ email, username });
             if (userExists) {
-                return res.status(400).json({ message: "User already exists" });
+                throw new Error("User already exists");
             }
 
-            const hashedPassword = bcrypt.hash(password, 12);
+            const hashedPassword = bcrypt.hashSync(password, 12);
 
-            if (gender !== "m" || gender !== "f") {
-                return new Error("Invalid Gender Input");
+            if (gender !== "m" && gender !== "f") {
+                throw new Error("Invalid Gender Input");
             }
 
             const user = await User.create({
@@ -27,17 +27,21 @@ class AuthService {
                 gender,
             });
 
+            const payload = {
+                sub: user._id,
+                name: user.fullName,
+                iat: Date.now(),
+            };
+
             await user.save();
-            const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: ACCESS_TOKEN_EXPITY,
+
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
             });
 
             return { accessToken, userId: user._id };
         } catch (error) {
-            throw new Error({
-                message: "Error occurred while creating the user",
-                error,
-            });
+            throw new Error(error);
         }
     }
 
@@ -46,29 +50,39 @@ class AuthService {
             const user = await User.findOne({ email }).select("+password");
 
             if (!user) {
-                return new Error("User not found");
+                throw new Error("User not found");
             }
 
             const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
             if (!isPasswordCorrect) {
-                return new Error("Invalid credentials");
+                throw new Error("Invalid credentials");
             }
 
-            const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: ACCESS_TOKEN_EXPITY,
+            const payload = {
+                sub: user._id,
+                name: user.fullName,
+                iat: Date.now(),
+            };
+
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
             });
 
-            const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, {
-                expiresIn: REFRESH_TOKEN_EXPITY,
+            const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+                expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
             });
 
-            return { accessToken, refreshToken, userId: user._id };
+            user.refreshToken = refreshToken;
+            await user.save({ validateBeforeSave: false });
+
+            return {
+                accessToken: `Bearer ${accessToken}`,
+                refreshToken: `Bearer ${refreshToken}`,
+                userId: user._id,
+            };
         } catch (error) {
-            throw new Error({
-                message: "Error occurred while logging in",
-                error,
-            });
+            throw new Error(error);
         }
     }
 }

@@ -1,3 +1,4 @@
+```
 import vine from "@vinejs/vine";
 
 const schema = vine.object({
@@ -21,3 +22,4 @@ const validator = vine.compile(schema)
 const output = validator.validate(data)
 
 console.log(output)
+```
