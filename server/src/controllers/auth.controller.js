@@ -163,6 +163,41 @@ class AuthController {
             });
         }
     }
+
+    static async changePassword(req, res) {
+        const { oldPassword, newPassword, confirmNewPassword } = req.body;
+        try {
+            if (newPassword !== confirmNewPassword) {
+                return res.status(400).json({ message: "Passwords do not match" });
+            }
+
+            const user = await User.findById(req.user?._id);
+
+            const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+
+            if (!isPasswordCorrect) {
+                return res.status(400).json({ message: "Invalid credentials" });
+            }
+
+            if (oldPassword === newPassword) {
+                return res.status(400).json({ 
+                    message: "New password cannot be the same as the old password" 
+                });
+            }
+
+            hashedPassword = await bcrypt.hash(newPassword, 12);
+            user.password = hashedPassword;
+
+            await user.save({ validateBeforeSave: false });
+
+            res.status(200).json({ message: "Password changed successfully" });
+        } catch (error) {
+            res.status(500).json({
+                message: "Error occurred while changing the password",
+                error: error.message,
+            });
+        }
+    }
 }
 
 export default AuthController;
