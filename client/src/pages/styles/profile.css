@@ -19,7 +19,7 @@
 
 .profile-container {
 	display: flex;
-	max-width: 700px;
+	max-width: 450px;
 	margin: 0 auto;
 	background-color: #151515;
 	border-radius: 1rem;
@@ -33,7 +33,7 @@
 
 .user-cover-image {
 	position: relative;
-	height: 250px;
+	height: 200px;
 	overflow: hidden;
 }
 
@@ -45,7 +45,7 @@
 
 .user-image {
 	position: absolute;
-	top: 47%;
+	top: 40%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	border: 2px solid #fff;
@@ -54,8 +54,8 @@
 }
 
 .user-image img {
-	width: 100px;
-	height: 100px;
+	width: 80px;
+	height: 80px;
 	object-fit: cover;
 }
 
@@ -63,6 +63,7 @@
 	display: flex;
 	justify-content: space-around;
 	padding: 20px 0;
+	border-top: 1px solid rgba(200, 200, 200, 0.2);
 	/* border-bottom: 1px solid #eee; */
 }
 
@@ -71,7 +72,7 @@
 }
 
 .stat-count {
-	font-size: 24px;
+	font-size: 20px;
 	margin: 0;
 }
 
@@ -119,26 +120,26 @@
 .edit-action,
 .share-action,
 .more-action {
-	font-size: 2rem;
+	font-size: 1.8rem;
 	cursor: pointer;
 }
 
 .user-name {
 	margin: 0;
-	font-size: 2.5rem;
+	font-size: 2rem;
 	font-weight: 700;
 }
 
 .user-username {
 	margin: 5px 0;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	font-weight: 300;
 	color: #888;
 }
 
 .user-bio {
 	margin: 10px 0 0;
-	font-size: 1.5rem;
+	font-size: 1.4rem;
 	font-weight: 400;
 	text-align: justify;
 	letter-spacing: 0.1rem;

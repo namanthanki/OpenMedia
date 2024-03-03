@@ -30,7 +30,7 @@ const Navbar = () => {
 	};
 
 	const toggleSidebar = () => {
-		setIsSidebarOpen(!isSidebarOpen);
+		setIsSidebarOpen((prevState) => !prevState);
 	};
 
 	const handleSearchModalOpen = () => {
@@ -53,13 +53,17 @@ const Navbar = () => {
 		<>
 			<div className="navbar">
 				<div className="left">
-					<div className="sidebar-btn" onClick={toggleSidebar}>
-						{!isSidebarOpen ? (
-							<MdMenu className="nav-icon" />
-						) : (
-							<MdClose className="nav-icon" />
-						)}
-					</div>
+					{!isSidebarOpen ? (
+						<MdMenu
+							className="nav-icon sidebar-btn"
+							onClick={toggleSidebar}
+						/>
+					) : (
+						<MdClose
+							className="nav-icon sidebar-btn"
+							onClick={toggleSidebar}
+						/>
+					)}
 					<Link className="nav-logo-link" to="/">
 						<h1 className="nav-logo">OpenMedia</h1>
 					</Link>

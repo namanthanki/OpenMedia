@@ -32,7 +32,7 @@ const router = createBrowserRouter([
 	}) : ({
 		path: "/",
 		element: <WelcomePage />,
-	},
+	}),
 	{
 		path: "/login",
 		element: <LoginPage />,
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
 	{
 		path: "*",
 		element: <h1>404 Not Found</h1>,
-	})
+	}
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
