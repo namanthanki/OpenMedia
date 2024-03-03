@@ -23,7 +23,7 @@ const Comment = ({ commentData }) => {
 					</p>
 				</div>
 				<p className="comment-text">{commentData.content}</p>
-				<div className="comment-actions">
+				{/* <div className="comment-actions">
 					{commentData.replies && (
 						<button onClick={toggleReplies}>
 							{showReplies ? "Hide" : "Show"} Replies
@@ -37,7 +37,7 @@ const Comment = ({ commentData }) => {
 							<Comment key={reply.id} commentData={reply} />
 						))}
 					</div>
-				)}
+				)} */}
 			</div>
 		</div>
 	);

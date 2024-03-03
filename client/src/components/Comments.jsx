@@ -37,11 +37,11 @@ const Comments = ({ commentsListData }) => {
 					<Comment commentData={commentData} key={commentData.id} />
 				))}
 			</div>
-			<Link to="/all-comments" state={commentsListData}>
+			{/* <Link to="/all-comments" state={commentsListData}>
 				<button className="view-more-comments-btn">
 					View More Comments
 				</button>
-			</Link>
+			</Link> */}
 		</div>
 	);
 };

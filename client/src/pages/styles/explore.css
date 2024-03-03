@@ -1,0 +1,38 @@
+.trending-posts {
+	margin-bottom: 20px;
+}
+
+.trending-posts h3 {
+	font-size: 1.2em;
+}
+
+.popular-topics {
+	margin-bottom: 20px;
+}
+
+.popular-topics h3 {
+	font-size: 1.2em;
+}
+
+.recommended-users {
+	margin-bottom: 20px;
+}
+
+.recommended-users h3 {
+	font-size: 1.2em;
+}
+
+.explore-page {
+	padding: 20px;
+}
+
+.explore-page h2 {
+	font-size: 2em;
+	margin-bottom: 20px;
+}
+
+.explore-content {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 20px;
+}
