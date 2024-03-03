@@ -18,3 +18,10 @@ export const loginSchema = vine.object({
     email: vine.string().email(),
     password: vine.string().minLength(8).maxLength(64),
 });
+
+export const forgotPasswordSchema = vine.object({
+    oldPassword: vine.string().minLength(8).maxLength(64),
+    newPassword: vine.string().minLength(8).maxLength(64).confirmed({
+        confirmationField: "confirmNewPassword",
+    }),
+});
