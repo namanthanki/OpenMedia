@@ -12,7 +12,15 @@ class AuthController {
             const validator = vine.compile(registerSchema);
             const output = await validator.validate(data);
 
-            const { firstName, lastName, username, email, password, dateOfBirth, gender } = output;
+            const { 
+                firstName, 
+                lastName, 
+                username, 
+                email, 
+                password, 
+                dateOfBirth, 
+                gender 
+            } = output;
 
             const user = await AuthService.register(
                 firstName,
@@ -25,13 +33,20 @@ class AuthController {
             );
 
             if (user) {
-                return res.status(201).json({ user, message: "User created successfully" });
+                return res.status(201).json({ 
+                    user, 
+                    message: "User created successfully" 
+                });
             } else {
-                return res.status(500).json({ message: "Error occurred while creating the user" });
+                return res.status(500).json({ 
+                    message: "Error occurred while creating the user" 
+                });
             }
         } catch (error) {
             if (error instanceof errors.E_VALIDATION_ERROR) {
-                return res.status(400).json({ message: error.messages });
+                return res.status(400).json({ 
+                    message: error.messages 
+                });
             }
 
             res.status(500).json({
@@ -64,7 +79,8 @@ class AuthController {
                 secure: true,
             };
 
-            res.status(200)
+            res
+                .status(200)
                 .cookie("accessToken", user.accessToken, cookieOptions)
                 .cookie("refreshToken", user.refreshToken, cookieOptions)
                 .json({ user, message: "User logged in successfully" });
@@ -110,7 +126,8 @@ class AuthController {
     static async refreshToken(req, res) {
         try {
             const incomingRefreshToken =
-                req.cookies?.refreshToken.split(" ")[1] || req.header("Authorization")?.split(" ")[1];
+                req.cookies?.refreshToken.split(" ")[1] || 
+                req.header("Authorization")?.split(" ")[1];
             if (!incomingRefreshToken) {
                 return res.status(401).json({ message: "Unauthorized" });
             }
