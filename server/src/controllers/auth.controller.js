@@ -2,7 +2,11 @@ import AuthService from "../services/auth.service.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import vine, { errors } from "@vinejs/vine";
-import { registerSchema, loginSchema, forgotPasswordSchema } from "../validations/auth.validation.js";
+import {
+    registerSchema,
+    loginSchema,
+    forgotPasswordSchema,
+} from "../validations/auth.validation.js";
 import { User } from "../models/user.model.js";
 
 class AuthController {
@@ -12,14 +16,14 @@ class AuthController {
             const validator = vine.compile(registerSchema);
             const output = await validator.validate(data);
 
-            const { 
-                firstName, 
-                lastName, 
-                username, 
-                email, 
-                password, 
-                dateOfBirth, 
-                gender 
+            const {
+                firstName,
+                lastName,
+                username,
+                email,
+                password,
+                dateOfBirth,
+                gender,
             } = output;
 
             const user = await AuthService.register(
@@ -33,19 +37,19 @@ class AuthController {
             );
 
             if (user) {
-                return res.status(201).json({ 
-                    user, 
-                    message: "User created successfully" 
+                return res.status(201).json({
+                    user,
+                    message: "User created successfully",
                 });
             } else {
-                return res.status(500).json({ 
-                    message: "Error occurred while creating the user" 
+                return res.status(500).json({
+                    message: "Error occurred while creating the user",
                 });
             }
         } catch (error) {
             if (error instanceof errors.E_VALIDATION_ERROR) {
-                return res.status(400).json({ 
-                    message: error.messages 
+                return res.status(400).json({
+                    message: error.messages,
                 });
             }
 
@@ -66,24 +70,21 @@ class AuthController {
 
             const user = await AuthService.login(email, password);
 
-            if (user instanceof Error) {
-                return res.status(400).json({ message: user.message });
+            if (user) {
+                const cookieOptions = {
+                    httpOnly: true,
+                    secure: true,
+                };
+
+                return res
+                    .status(200)
+                    .cookie("accessToken", user.accessToken, cookieOptions)
+                    .cookie("refreshToken", user.refreshToken, cookieOptions)
+                    .json({ user, message: "User logged in successfully" });
             }
-
-            if (user === null || user === undefined) {
-                return res.status(500).json({ message: "Error occurred while logging in" });
-            }
-
-            const cookieOptions = {
-                httpOnly: true,
-                secure: true,
-            };
-
-            res
-                .status(200)
-                .cookie("accessToken", user.accessToken, cookieOptions)
-                .cookie("refreshToken", user.refreshToken, cookieOptions)
-                .json({ user, message: "User logged in successfully" });
+            return res
+                .status(500)
+                .json({ message: "Error occurred while logging in" });
         } catch (error) {
             if (error instanceof errors.E_VALIDATION_ERROR) {
                 return res.status(400).json({ message: error.messages });
@@ -126,18 +127,23 @@ class AuthController {
     static async refreshToken(req, res) {
         try {
             const incomingRefreshToken =
-                req.cookies?.refreshToken.split(" ")[1] || 
+                req.cookies?.refreshToken?.split(" ")[1] ||
                 req.header("Authorization")?.split(" ")[1];
             if (!incomingRefreshToken) {
                 return res.status(401).json({ message: "Unauthorized" });
             }
 
-            const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+            const decoded = jwt.verify(
+                incomingRefreshToken,
+                process.env.REFRESH_TOKEN_SECRET,
+            );
 
             const user = await User.findById(decoded?.sub).select("-password");
 
             if (!user) {
-                return res.status(404).json({ message: "Invalid Refresh Token" });
+                return res
+                    .status(404)
+                    .json({ message: "Invalid Refresh Token" });
             }
 
             if (user?.refreshToken !== incomingRefreshToken) {
@@ -150,13 +156,21 @@ class AuthController {
                 iat: Date.now(),
             };
 
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-            });
+            const accessToken = jwt.sign(
+                payload,
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+                },
+            );
 
-            const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-                expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-            });
+            const refreshToken = jwt.sign(
+                payload,
+                process.env.REFRESH_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+                },
+            );
 
             user.refreshToken = refreshToken;
             await user.save({ validateBeforeSave: false });
@@ -192,7 +206,10 @@ class AuthController {
             const { oldPassword, newPassword } = output;
 
             const user = await User.findById(req.user?._id).select("+password");
-            const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+            const isPasswordCorrect = await bcrypt.compare(
+                oldPassword,
+                user.password,
+            );
 
             if (!isPasswordCorrect) {
                 return res.status(400).json({ message: "Invalid credentials" });
@@ -200,7 +217,8 @@ class AuthController {
 
             if (oldPassword === newPassword) {
                 return res.status(400).json({
-                    message: "New password cannot be the same as the old password",
+                    message:
+                        "New password cannot be the same as the old password",
                 });
             }
 

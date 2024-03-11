@@ -3,20 +3,18 @@ import { Schema } from "mongoose";
 
 const friendshipSchema = new Schema(
     {
-        user: {
+        sender: {
             type: Schema.Types.ObjectId,
             ref: "User",
-            required: true,
         },
-        friends: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "User",
-            },
-        ],
+        receiver: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
         status: {
-            type: Number,
-            enum: [0, 1, 2],
+            type: String,
+            enum: ["pending", "accepted", "rejected"],
+            default: "pending",
         },
     },
     { timestamps: true },

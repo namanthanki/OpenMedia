@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 export const verifyAccessToken = async (req, res, next) => {
-    const accessToken = req.cookies?.accessToken.split(" ")[1] || req.header("Authorization")?.split(" ")[1];
+    const accessToken = req.cookies?.accessToken?.split(" ")[1] || req.header("Authorization")?.split(" ")[1];
     if (!accessToken) {
         return res.status(401).json({ message: "Unauthorized" });
     }

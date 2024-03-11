@@ -29,12 +29,6 @@ const postSchema = new Schema(
                 ref: "Comment",
             },
         ],
-        shares: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "User",
-            },
-        ],
         reposts: [
             {
                 type: Schema.Types.ObjectId,
