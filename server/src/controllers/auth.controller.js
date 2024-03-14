@@ -130,24 +130,23 @@ class AuthController {
                 req.cookies?.refreshToken?.split(" ")[1] ||
                 req.header("Authorization")?.split(" ")[1];
             if (!incomingRefreshToken) {
-                return res.status(401).json({ message: "Unauthorized" });
+                return res.status(403).json({ message: "Unauthorized" });
             }
-
             const decoded = jwt.verify(
                 incomingRefreshToken,
                 process.env.REFRESH_TOKEN_SECRET,
             );
 
-            const user = await User.findById(decoded?.sub).select("-password");
-
+            const user = await User.findById(decoded?.sub).select(
+                "-password +refreshToken",
+            );
             if (!user) {
                 return res
                     .status(404)
                     .json({ message: "Invalid Refresh Token" });
             }
-
             if (user?.refreshToken !== incomingRefreshToken) {
-                return res.status(401).json({ message: "Unauthorized" });
+                return res.status(403).json({ message: "Unauthorized" });
             }
 
             const payload = {
@@ -181,11 +180,11 @@ class AuthController {
             };
 
             res.status(200)
-                .cookie("accessToken", accessToken, cookieOptions)
-                .cookie("refreshToken", refreshToken, cookieOptions)
+                .cookie("accessToken", `Bearer ${accessToken}`, cookieOptions)
+                .cookie("refreshToken", `Bearer ${refreshToken}`    , cookieOptions)
                 .json({
-                    accessToken: accessToken,
-                    refreshToken: refreshToken,
+                    accessToken: `Bearer ${accessToken}`,
+                    refreshToken: `Bearer ${refreshToken}`,
                     message: "Access Token refreshed successfully",
                 });
         } catch (error) {

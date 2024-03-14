@@ -15,15 +15,19 @@ const notificationSchema = new Schema(
         },
         type: {
             type: String,
+            enum: [
+                "friendRequest",
+                "like",
+                "comment",
+                "follow",
+                "message",
+                "repost",
+            ],
             required: true,
         },
         read: {
             type: Boolean,
             default: false,
-        },
-        postId: {
-            type: Schema.Types.ObjectId,
-            ref: "Post",
         },
     },
     { timestamps: true },

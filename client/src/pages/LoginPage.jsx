@@ -1,22 +1,58 @@
-// import Card from "../components/Card";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import axios from "../api/axios";
+const LOGIN_URL = "auth/login";
+
 import "./styles/auth-defaults.css";
 import "./styles/auth-forms.css";
 
 const LoginPage = () => {
+	const { setAuth, persist, setPersist } = useAuth();
+
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/home";
+
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
 
+	const togglePersist = () => {
+		setPersist((prev) => !prev);
+	};
+
+	useEffect(() => {
+		localStorage.setItem("persist", persist);
+	}, [persist]);
+
 	const handleFormChange = (event) => {
 		setFormData({ ...formData, [event.target.name]: event.target.value });
 	};
 
-	const handleFormSubmit = (event) => {
+	const handleFormSubmit = async (event) => {
 		event.preventDefault();
-		console.log("Form submitted:", formData);
+		try {
+			const response = await axios.post(
+				LOGIN_URL,
+				JSON.stringify(formData),
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+					withCredentials: true,
+				}
+			);
+
+			const userId = response?.data?.user.userId;
+			const accessToken = response?.data?.user.accessToken;
+			const refreshToken = response?.data?.user.refreshToken;
+			setAuth({ userId, accessToken, refreshToken });
+			navigate(from, { replace: true });
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -59,6 +95,20 @@ const LoginPage = () => {
 								<button className="submit-btn" type="submit">
 									Login
 								</button>
+							</div>
+						</div>
+						<div className="form-row">
+							<div className="form-cell">
+								<input
+									type="checkbox"
+									name="persist"
+									id="persist"
+									onChange={togglePersist}
+									checked={persist}
+								/>
+								<label style={{display: "inline"}} htmlFor="persist">
+									Trust This Device
+								</label>
 							</div>
 						</div>
 					</form>

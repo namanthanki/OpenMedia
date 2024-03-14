@@ -58,6 +58,9 @@ class UserService {
             user.followings.push(followId.toString());
             followUser.followers.push(userId.toString());
 
+            user.followingsCount += 1;
+            followUser.followersCount += 1;
+
             await user.save();
             await followUser.save();
 
@@ -95,6 +98,9 @@ class UserService {
                 (id) => id.toString() !== userId,
             );
 
+            user.followingsCount -= 1;
+            unfollowUser.followersCount -= 1;
+
             await user.save();
             await unfollowUser.save();
 
@@ -108,14 +114,14 @@ class UserService {
         }
     }
 
-    static async sendFriendRequest(senderId, receiverId) {
+    static async sendFriendRequest(senderId, friendId) {
         try {
-            if (senderId === receiverId) {
+            if (senderId === friendId) {
                 throw new Error("You cannot send friend request to yourself");
             }
 
             const sender = await User.findById(senderId);
-            const receiver = await User.findById(receiverId);
+            const receiver = await User.findById(friendId);
 
             if (!sender || !receiver) {
                 throw new Error("User not found");
@@ -123,7 +129,7 @@ class UserService {
 
             const pendingRequest = await Friendship.findOne({
                 sender: senderId,
-                receiver: receiverId,
+                receiver: friendId,
                 status: "pending",
             });
 
@@ -131,9 +137,19 @@ class UserService {
                 throw new Error("Friend request already sent");
             }
 
+            const existingFriendship = await Friendship.findOne({
+                sender: senderId,
+                receiver: friendId,
+                status: "accepted",
+            });
+
+            if (existingFriendship) {
+                throw new Error("You are already friends");
+            }
+
             const friendship = new Friendship({
                 sender: senderId,
-                receiver: receiverId,
+                receiver: friendId,
             });
 
             await friendship.save();
@@ -147,6 +163,13 @@ class UserService {
 
     static async acceptFriendRequest(senderId, receiverId) {
         try {
+            const sender = await User.findById(senderId);
+            const receiver = await User.findById(receiverId);
+
+            if (!sender || !receiver) {
+                throw new Error("User not found");
+            }
+
             const friendship = await Friendship.findOne({
                 sender: senderId,
                 receiver: receiverId,
@@ -158,7 +181,16 @@ class UserService {
             }
 
             friendship.status = "accepted";
-            await friendship.save();
+            friendship.save();
+
+            sender.friends.push(receiverId);
+            receiver.friends.push(senderId);
+
+            sender.friendsCount += 1;
+            receiver.friendsCount += 1;
+
+            await sender.save();
+            await receiver.save();
 
             return { friendship };
         } catch (error) {
@@ -201,7 +233,11 @@ class UserService {
                 throw new Error("Friend request not found");
             }
 
-            await friendship.delete();
+            await friendship.deleteOne({
+                sender: senderId,
+                receiver: receiverId,
+                status: "pending",
+            });
 
             return { friendship };
         } catch (error) {
@@ -212,6 +248,13 @@ class UserService {
 
     static async removeFriend(userId, friendId) {
         try {
+            const sender = await User.findById(userId);
+            const receiver = await User.findById(friendId);
+
+            if (!sender || !receiver) {
+                throw new Error("User not found");
+            }
+
             const friendship = await Friendship.findOne({
                 sender: userId,
                 receiver: friendId,
@@ -222,7 +265,24 @@ class UserService {
                 throw new Error("Friend not found");
             }
 
-            await friendship.delete();
+            await friendship.deleteOne({
+                sender: userId,
+                receiver: friendId,
+                status: "accepted",
+            });
+
+            sender.friends = sender.friends.filter(
+                (id) => id.toString() !== friendId,
+            );
+            receiver.friends = receiver.friends.filter(
+                (id) => id.toString() !== userId,
+            );
+
+            sender.friendsCount -= 1;
+            receiver.friendsCount -= 1;
+
+            await sender.save();
+            await receiver.save();
 
             return { friendship };
         } catch (error) {

@@ -90,6 +90,19 @@ const userSchema = new Schema(
                 ref: "Friendship",
             },
         ],
+        // Todo: Denormalize more data
+        friendsCount: {
+            type: Number,
+            default: 0,
+        },
+        followersCount: {
+            type: Number,
+            default: 0,
+        },
+        followingsCount: {
+            type: Number,
+            default: 0,
+        },
         blockedUsers: [
             {
                 type: Schema.Types.ObjectId,

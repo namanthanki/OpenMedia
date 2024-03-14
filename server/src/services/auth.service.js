@@ -4,7 +4,15 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 class AuthService {
-    static async register(firstName, lastName, username, email, password, dateOfBirth, gender) {
+    static async register(
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        dateOfBirth,
+        gender,
+    ) {
         try {
             const userExists = await User.findOne({ email, username });
             if (userExists) {
@@ -35,9 +43,13 @@ class AuthService {
 
             await user.save();
 
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-            });
+            const accessToken = jwt.sign(
+                payload,
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+                },
+            );
 
             return { accessToken, userId: user._id };
         } catch (error) {
@@ -53,7 +65,10 @@ class AuthService {
                 throw new Error("User not found");
             }
 
-            const isPasswordCorrect = await bcrypt.compare(password, user.password);
+            const isPasswordCorrect = await bcrypt.compare(
+                password,
+                user.password,
+            );
 
             if (!isPasswordCorrect) {
                 throw new Error("Invalid credentials");
@@ -65,13 +80,21 @@ class AuthService {
                 iat: Date.now(),
             };
 
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-            });
+            const accessToken = jwt.sign(
+                payload,
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+                },
+            );
 
-            const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-                expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-            });
+            const refreshToken = jwt.sign(
+                payload,
+                process.env.REFRESH_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+                },
+            );
 
             user.refreshToken = refreshToken;
             await user.save({ validateBeforeSave: false });
