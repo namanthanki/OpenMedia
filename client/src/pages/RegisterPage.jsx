@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../api/axios";
+
 import "./styles/auth-defaults.css";
 import "./styles/auth-forms.css";
 
 const RegisterPage = () => {
+	const navigate = useNavigate();
+
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -19,9 +23,27 @@ const RegisterPage = () => {
 		setFormData({ ...formData, [event.target.name]: event.target.value });
 	};
 
-	const handleFormSubmit = (event) => {
+	const handleFormSubmit = async (event) => {
 		event.preventDefault();
-		console.log("Form submitted:", formData);
+		try {
+			const response = await axios.post(
+				"/auth/register",
+				JSON.stringify(formData),
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (response.status === 201) {
+				navigate("/login");
+			} else {
+				console.error(response);
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (

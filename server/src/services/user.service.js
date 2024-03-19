@@ -22,12 +22,20 @@ class UserService {
 
     static async getUser(id) {
         try {
-            const user = await User.findById(id).select([
-                "username",
-                "email",
-                "dateOfBirth",
-                "gender",
-            ]);
+            const user = await User.findById(id);
+            if (!user) {
+                throw new Error("User not found");
+            }
+            return user;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async getUserById(id) {
+        try {
+            const user = await User.findById(id);
             if (!user) {
                 throw new Error("User not found");
             }

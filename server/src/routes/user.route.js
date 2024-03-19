@@ -2,11 +2,18 @@ import express from "express";
 const userRouter = express.Router();
 import UserController from "../controllers/user.controller.js";
 import { verifyAccessToken } from "../middlewares/auth.middleware.js";
+import { profileUpload } from "../middlewares/multer.middleware.js";
 
 userRouter.get("/", verifyAccessToken, UserController.getUser);
+userRouter.get("/:id", verifyAccessToken, UserController.getUserById);
 userRouter.put("/", verifyAccessToken, UserController.updateUser);
 userRouter.delete("/", verifyAccessToken, UserController.deleteUser);
-userRouter.put("/setup", verifyAccessToken, UserController.setupProfile);
+userRouter.put(
+    "/setup",
+    verifyAccessToken,
+    profileUpload,
+    UserController.setupProfile,
+);
 // userRouter.get("/profile/:username", verifyAccessToken, UserController.getProfile);
 userRouter.post("/follow/:id", verifyAccessToken, UserController.follow);
 userRouter.post("/unfollow/:id", verifyAccessToken, UserController.unfollow);

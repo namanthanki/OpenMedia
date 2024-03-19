@@ -1,4 +1,6 @@
 import { Post } from "../models/post.model.js";
+import { User } from "../models/user.model.js";
+import { Comment } from "../models/comment.model.js";
 
 class PostService {
     static async getOne(id) {
@@ -17,6 +19,33 @@ class PostService {
     static async getAll() {
         try {
             const posts = await Post.find();
+            return posts;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async getAllByAuthor(author) {
+        try {
+            const posts = await Post.find({ author: author });
+            return posts;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async getFeedPosts(userId) {
+        try {
+            const user = await User.findById(userId);
+            if (!user) {
+                throw new Error("User not found");
+            }
+
+            const posts = await Post.find({
+                author: { $in: user.followings },
+            }).sort({ createdAt: -1 });
             return posts;
         } catch (error) {
             console.error(error);
@@ -56,6 +85,84 @@ class PostService {
                 }
             });
 
+            await post.save();
+            return post;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async like(id, author) {
+        try {
+            const post = await Post.findById(id);
+            if (!post) {
+                throw new Error("Post not found");
+            }
+
+            if (post.likes.includes(author.toString())) {
+                throw new Error("You have already liked this post");
+            }
+
+            post.likes.push(author);
+            post.likesCount = post.likesCount + 1;
+            await post.save();
+            return post;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async unlike(id, author) {
+        try {
+            const post = await Post.findById(id);
+            if (!post) {
+                throw new Error("Post not found");
+            }
+
+            if (!post.likes.includes(author.toString())) {
+                throw new Error("You have not liked this post");
+            }
+
+            post.likes = post.likes.filter(
+                (like) => like.toString() !== author.toString(),
+            );
+            post.likesCount = post.likesCount - 1;
+            await post.save();
+            return post;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async comment(id, content, authorId) {
+        try {
+            const author = await User.findById(authorId);
+            if (!author) {
+                throw new Error("User not found");
+            }
+
+            const post = await Post.findById(id);
+            if (!post) {
+                throw new Error("Post not found");
+            }
+
+            const authorName = `${author.firstName} ${author.lastName}`;
+            const commentData = {
+                author: author._id.toString(),
+                authorName: authorName,
+                authorUsername: author.username,
+                authorProfilePicture: author.profilePicture,
+                content: content,
+                postId: post._id.toString(),
+            };
+            const comment = new Comment(commentData);
+            await comment.save();
+
+            post.comments.push(comment._id.toString());
+            post.commentsCount = post.commentsCount + 1;
             await post.save();
             return post;
         } catch (error) {

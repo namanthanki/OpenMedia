@@ -49,6 +49,11 @@ const LoginPage = () => {
 			const accessToken = response?.data?.user.accessToken;
 			const refreshToken = response?.data?.user.refreshToken;
 			setAuth({ userId, accessToken, refreshToken });
+			console.log(response?.data?.user.isSetup);
+			if (response?.data?.user?.isSetup === false) {
+				navigate("/setup", { replace: true });
+				return;
+			}
 			navigate(from, { replace: true });
 		} catch (error) {
 			console.error(error);
@@ -106,7 +111,10 @@ const LoginPage = () => {
 									onChange={togglePersist}
 									checked={persist}
 								/>
-								<label style={{display: "inline"}} htmlFor="persist">
+								<label
+									style={{ display: "inline" }}
+									htmlFor="persist"
+								>
 									Trust This Device
 								</label>
 							</div>

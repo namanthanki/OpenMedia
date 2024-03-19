@@ -16,7 +16,7 @@ const Sidebar = ({ isSidebarOpen }) => {
 
 	return (
 		<aside className={`sidebar-container ${isSidebarOpen ? "open" : ""}`}>
-			<SidebarItem title="Home" url="" />
+			<SidebarItem title="Home" url="home" />
 			<SidebarItem title="Profile" url="profile" />
 			<SidebarItem title="Chats" url="chats" />
 			<SidebarItem title="Settings" url="settings" />

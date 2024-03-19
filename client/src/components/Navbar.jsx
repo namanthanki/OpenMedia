@@ -64,13 +64,13 @@ const Navbar = () => {
 							onClick={toggleSidebar}
 						/>
 					)}
-					<Link className="nav-logo-link" to="/">
+					<Link className="nav-logo-link" to="/home">
 						<h1 className="nav-logo">OpenMedia</h1>
 					</Link>
 				</div>
 				<ul className="nav-links">
 					<li className="nav-link">
-						<Link to="/">
+						<Link to="/home">
 							<MdHome className="nav-icon" />
 						</Link>
 					</li>

@@ -35,6 +35,18 @@ const postSchema = new Schema(
                 ref: "Post",
             },
         ],
+        likesCount: {
+            type: Number,
+            default: 0,
+        },
+        commentsCount: {
+            type: Number,
+            default: 0,
+        },
+        repostsCount: {
+            type: Number,
+            default: 0,
+        },
     },
     { timestamps: true },
 );

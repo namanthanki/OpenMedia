@@ -1,13 +1,23 @@
 import UserPost from "./UserPost";
+import { usePost } from "../context/PostContext";
 
 import "./styles/posts.css";
 
 const PostsList = () => {
+	const { posts } = usePost();
+
 	return (
 		<div className="posts-container">
-			{postsListData.map((postData) => (
-				<UserPost postData={postData} key={postData.id} />
-			))}
+			{posts.length > 0 ? (
+				posts.map((postData) => (
+					<UserPost postData={postData} key={postData._id} />
+				))
+			) : (
+				<div className="no-posts-message">
+					<p>No Posts Found For You!</p>
+					<p>Follow Someone to See Their Posts</p>
+				</div>
+			)}
 		</div>
 	);
 };

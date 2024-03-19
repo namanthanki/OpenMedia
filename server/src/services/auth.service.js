@@ -103,6 +103,7 @@ class AuthService {
                 accessToken: `Bearer ${accessToken}`,
                 refreshToken: `Bearer ${refreshToken}`,
                 userId: user._id,
+                isSetup: user.isProfileSetup,
             };
         } catch (error) {
             throw new Error(error);

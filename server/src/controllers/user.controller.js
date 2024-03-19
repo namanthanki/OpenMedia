@@ -5,16 +5,21 @@ import { setupProfileSchema } from "../validations/user.validation.js";
 class UserController {
     static async setupProfile(req, res) {
         const id = req.user.id;
-        const data = req.body;
+        const { bio } = req.body;
+        const profilePicture = req.files["profilePicture"][0].path;
+        const coverPicture = req.files["coverPicture"][0].path;
+
+        const data = { profilePicture, coverPicture, bio };
+
         try {
-            const validator = vine.compile(profileSetupSchema);
+            const validator = vine.compile(setupProfileSchema);
             const output = await validator.validate(data);
-            const { profilePicture, coverImage, bio } = output;
+            const { profilePicture, coverPicture, bio } = output;
 
             const user = await UserService.setupProfile(
                 id,
                 profilePicture,
-                coverImage,
+                coverPicture,
                 bio,
             );
             if (user) {
@@ -42,6 +47,27 @@ class UserController {
         const id = req.user.id;
         try {
             const user = await UserService.getUser(id);
+            if (user) {
+                return res.status(200).json({
+                    user,
+                    message: "User retrieved successfully",
+                });
+            }
+            return res.status(404).json({
+                message: "User not found",
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Error occurred while creating the user",
+                error: error.message,
+            });
+        }
+    }
+
+    static async getUserById(req, res) {
+        const id = req.params.id;
+        try {
+            const user = await UserService.getUserById(id);
             if (user) {
                 return res.status(200).json({
                     user,

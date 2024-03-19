@@ -3,6 +3,8 @@ import RootLayout from "./routes/RootLayout";
 import { publicRoutes, privateRoutes } from "./routes";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
+import { PostProvider } from "./context/PostContext";
+import { UserProvider } from "./context/UserContext"; 
 
 const App = () => {
 	const PublicRoutes = publicRoutes.map((route, index) => {
@@ -35,16 +37,18 @@ const App = () => {
 
 	return (
 		<>
-			<BrowserRouter>
-				<Routes>
-					{PublicRoutes}
-					<Route element={<RootLayout />}>
-						{/* <Route element={<PersistLogin />}> */}
-						{PrivateRoutes}
-						{/* </Route> */}
-					</Route>
-				</Routes>
-			</BrowserRouter>
+			<UserProvider>
+				<PostProvider>
+					<BrowserRouter>
+						<Routes>
+							{PublicRoutes}
+							<Route element={<RootLayout />}>
+								{PrivateRoutes}
+							</Route>
+						</Routes>
+					</BrowserRouter>
+				</PostProvider>
+			</UserProvider>
 		</>
 	);
 };
