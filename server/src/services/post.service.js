@@ -53,6 +53,18 @@ class PostService {
         }
     }
 
+    static async getProfilePosts(author) {
+        try {
+            const posts = await Post.find({ author: author }).sort({
+                createdAt: -1,
+            });
+            return posts;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
     static async create(data) {
         try {
             const post = new Post(data);

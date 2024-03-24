@@ -50,6 +50,22 @@ class PostController {
         }
     }
 
+    static async getProfilePosts(req, res) {
+        const author = req.params.id;
+        try {
+            const posts = await PostService.getProfilePosts(author);
+            return res.status(200).json({
+                posts,
+                message: "Profile posts retrieved successfully",
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Error occurred while retrieving profile posts",
+                error: error.message,
+            });
+        }
+    }
+
     static async create(req, res) {
         const author = req.user.id.toString();
         const { content } = req.body;
@@ -58,7 +74,7 @@ class PostController {
         try {
             const validator = vine.compile(createPostSchema);
             const output = await validator.validate(data);
-            
+
             const post = await PostService.create(output);
             return res.status(201).json({
                 post,

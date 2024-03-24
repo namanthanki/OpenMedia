@@ -1,10 +1,13 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { axiosPrivate } from "../api/axios";
 const PostContext = createContext();
+import { useUser } from "./UserContext";
 
 export const PostProvider = ({ children }) => {
+	const [myPosts, setMyPosts] = useState([]);
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const { user } = useUser();
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -29,9 +32,38 @@ export const PostProvider = ({ children }) => {
 			}
 		};
 
+		
 		fetchPosts();
 	}, []);
+	
+	useEffect(() => {
+		const fetchMyPosts = async () => {
+			try {
+				const response = await axiosPrivate.get(
+					`/post/profile/${user._id}`
+				);
 
+				response.data.posts.forEach((post) => {
+					if (post.image) {
+						post.image =
+							"http://localhost:3000/" +
+							post.image
+								.split("\\")
+								.join("/")
+								.split("public/")[1];
+					}
+				});
+				console.log(response.data);
+				setMyPosts(response.data.posts);
+			} catch (error) {
+				console.error(error);	
+			}
+		};
+		if(user) {
+			fetchMyPosts();
+		}
+	}, [user]);
+	
 	const getById = async (postId) => {
 		try {
 			const response = await axiosPrivate.get(`/post/${postId}`);
@@ -43,7 +75,7 @@ export const PostProvider = ({ children }) => {
 
 	const createPost = async (post) => {
 		try {
-			const response = await axiosPrivate.post("/post", post, {
+			await axiosPrivate.post("/post", post, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
@@ -133,6 +165,7 @@ export const PostProvider = ({ children }) => {
 		<PostContext.Provider
 			value={{
 				posts,
+				myPosts,
 				createPost,
 				updatePost,
 				deletePost,

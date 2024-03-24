@@ -7,6 +7,7 @@ const postRouter = express.Router();
 
 postRouter.post("/", verifyAccessToken, postUpload, PostController.create);
 postRouter.get("/", verifyAccessToken, PostController.getAll);
+postRouter.get("/profile/:id", verifyAccessToken, PostController.getProfilePosts);
 postRouter.get("/feed", verifyAccessToken, PostController.getFeedPosts);
 postRouter.get("/:id", verifyAccessToken, PostController.getOne);
 postRouter.put("/:id", verifyAccessToken, PostController.update);

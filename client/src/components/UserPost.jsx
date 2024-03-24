@@ -39,7 +39,6 @@ const UserPost = ({ postData }) => {
 						.split("\\")
 						.join("/")
 						.split("public/")[1];
-				console.log(response.data);
 				setPostUser(response.data.user);
 			} catch (error) {
 				console.error(error);
