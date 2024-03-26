@@ -1,7 +1,8 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { axiosPrivate } from "../api/axios";
+import { useUser } from "../hooks/useUser";
+
 const PostContext = createContext();
-import { useUser } from "./UserContext";
 
 export const PostProvider = ({ children }) => {
 	const [myPosts, setMyPosts] = useState([]);
@@ -58,8 +59,9 @@ export const PostProvider = ({ children }) => {
 				console.error(error);
 			}
 		};
-
-		fetchMyPosts();
+		if(user) {
+			fetchMyPosts();
+		}
 	}, [user]);
 
 	const getById = async (postId) => {
@@ -110,10 +112,10 @@ export const PostProvider = ({ children }) => {
 				prev.map((p) =>
 					p.id === postId
 						? {
-								...p,
-								likes: response.data.post.likes,
-								likesCount: response.data.post.likesCount,
-						  }
+							...p,
+							likes: response.data.post.likes,
+							likesCount: response.data.post.likesCount,
+						}
 						: p
 				)
 			);
@@ -129,10 +131,10 @@ export const PostProvider = ({ children }) => {
 				prev.map((p) =>
 					p.id === postId
 						? {
-								...p,
-								likes: response.data.post.likes,
-								likesCount: response.data.post.likesCount,
-						  }
+							...p,
+							likes: response.data.post.likes,
+							likesCount: response.data.post.likesCount,
+						}
 						: p
 				)
 			);
@@ -177,10 +179,6 @@ export const PostProvider = ({ children }) => {
 			{children}
 		</PostContext.Provider>
 	);
-};
-
-export const usePost = () => {
-	return useContext(PostContext);
 };
 
 export default PostContext;

@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 import "./styles/user-post.css";
 import Comments from "./Comments";
 import { axiosPrivate } from "../api/axios";
-import { usePost } from "../context/PostContext";
-import { useUser } from "../context/UserContext";
+import { usePost } from "../hooks/usePost";
+import { useUser } from "../hooks/useUser";
 
 const UserPost = ({ postData }) => {
 	const [showComments, setShowComments] = useState(false);

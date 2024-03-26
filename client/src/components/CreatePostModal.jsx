@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./styles/create-post-modal.css";
 import PostAuthorHeader from "./PostAuthorHeader";
-import { usePost } from "../context/PostContext";
-import { useUser } from "../context/UserContext";
+import { usePost } from "../hooks/usePost";
+import { useUser } from "../hooks/useUser";
 
 const CreatePostModal = ({ open, onClose }) => {
 	const [postContent, setPostContent] = useState("");

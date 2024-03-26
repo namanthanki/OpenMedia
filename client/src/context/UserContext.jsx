@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { axiosPrivate } from "../api/axios";
 
 const UserContext = createContext();
@@ -6,6 +6,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [needsRefetch, setNeedsRefetch] = useState(true);
 
 	const fetchUser = async () => {
 		try {
@@ -30,16 +31,17 @@ export const UserProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		fetchUser();
-	}, [user?._id]);
+		if (needsRefetch) {
+			fetchUser();
+			setNeedsRefetch(false);
+		}
+	}, [needsRefetch]);
 
 	return (
-		<UserContext.Provider value={{ user, fetchUser, loading }}>
+		<UserContext.Provider value={{ user, fetchUser, setNeedsRefetch, needsRefetch, loading }}>
 			{children}
 		</UserContext.Provider>
 	);
 };
 
-export const useUser = () => {
-	return useContext(UserContext);
-};
+export default UserContext;

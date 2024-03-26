@@ -1,16 +1,17 @@
 import { axiosPrivate } from "../api/axios"
-import useAuth from "./useAuth"
-import { usePost } from "../context/PostContext";
+import { useUser } from "./useUser";
+import useAuth from "./useAuth";
 
 const useLogout = () => {
-    const { setAuth } = useAuth();
-    const { setPosts, setMyPosts } = usePost();
-    
+    const { setUser, setNeedsRefetch } = useUser();
+    const { setAuth, setPersist } = useAuth();
+
     const logout = async () => {
-        setAuth({});
-        setPosts([]);
-        setMyPosts([]);
         try {
+            setUser({});
+            setAuth({});
+            setPersist(false);
+            setNeedsRefetch(true);
             const response = await axiosPrivate.post("auth/logout", {}, {
                 withCredentials: true
             });

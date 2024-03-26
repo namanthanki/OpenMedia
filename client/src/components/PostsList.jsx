@@ -1,14 +1,27 @@
+import { useEffect, useState } from "react";
 import UserPost from "./UserPost";
-import { usePost } from "../context/PostContext";
+import { usePost } from "../hooks/usePost";
 import { useLocation } from "react-router-dom";
 
 import "./styles/posts.css";
 
 const PostsList = () => {
 	const location = useLocation();
-	const { posts, myPosts } = usePost();
-	console.log(posts, myPosts);
 	const currentPath = location.pathname;
+
+	const { posts, myPosts } = usePost();
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		if ((posts || myPosts) && loading) {
+			setLoading(false);
+		}
+	}, [posts, myPosts, loading]);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<div className="posts-container">
 			{currentPath === "/profile" ? (

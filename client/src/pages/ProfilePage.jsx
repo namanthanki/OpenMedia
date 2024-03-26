@@ -1,10 +1,23 @@
 import { MdEdit, MdShare, MdMoreVert } from "react-icons/md";
 import "./styles/profile.css";
 import PostsList from "../components/PostsList";
-import { useUser } from "../context/UserContext";
+import { useUser } from "../hooks/useUser";
+import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
 	const { user } = useUser();
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		if (user && loading) {
+			setLoading(false);
+		}
+	}, [user, loading]);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<div className="profile-wrapper">
 			<div className="profile-container">
