@@ -1,18 +1,28 @@
 import { useState } from "react";
 import { MdSend } from "react-icons/md";
+import { axiosPrivate } from "../api/axios";
 
-const CommentForm = ({ onSubmit }) => {
+const CommentForm = ({ postId }) => {
 	const [text, setText] = useState("");
 
 	const handleChange = (e) => {
 		setText(e.target.value);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (text.trim() === "") return;
-		onSubmit(text);
-		setText("");
+		try {
+			const response = await axiosPrivate.post(
+				`/post/${postId}/comment`,
+				{ content: text }
+			);
+			console.log(response.data);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setText("");
+		}
 	};
 
 	return (

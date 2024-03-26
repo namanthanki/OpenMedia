@@ -1,13 +1,17 @@
-import axios from "../api/axios"
+import { axiosPrivate } from "../api/axios"
 import useAuth from "./useAuth"
+import { usePost } from "../context/PostContext";
 
 const useLogout = () => {
     const { setAuth } = useAuth();
+    const { setPosts, setMyPosts } = usePost();
     
     const logout = async () => {
         setAuth({});
+        setPosts([]);
+        setMyPosts([]);
         try {
-            const response = await axios.post("auth/logout", {}, {
+            const response = await axiosPrivate.post("auth/logout", {}, {
                 withCredentials: true
             });
             console.log(response.data);

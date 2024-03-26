@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
 
 	useEffect(() => {
 		fetchUser();
-	}, []);
+	}, [user?._id]);
 
 	return (
 		<UserContext.Provider value={{ user, fetchUser, loading }}>

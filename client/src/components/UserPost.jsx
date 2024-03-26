@@ -119,7 +119,11 @@ const UserPost = ({ postData }) => {
 					Shares
 				</div>
 			</div>
-			{showComments && <Comments commentsListData={postData.comments} />}
+			{showComments && (
+				<Comments
+					postId={postData._id}
+				/>
+			)}
 		</div>
 	);
 };

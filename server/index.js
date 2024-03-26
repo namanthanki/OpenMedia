@@ -1,7 +1,7 @@
 /**
  * API server
  * OpenMedia - An open source social media platform
- * Technologies: Node.js, Express.js, PostgreSQL, React.js
+ * Technologies: Node.js, Express.js, MongoDB, React.js
  * Author: Naman Thanki
  */
 

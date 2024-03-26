@@ -10,6 +10,7 @@ postRouter.get("/", verifyAccessToken, PostController.getAll);
 postRouter.get("/profile/:id", verifyAccessToken, PostController.getProfilePosts);
 postRouter.get("/feed", verifyAccessToken, PostController.getFeedPosts);
 postRouter.get("/:id", verifyAccessToken, PostController.getOne);
+postRouter.get("/:id/comments", verifyAccessToken, PostController.getComments);
 postRouter.put("/:id", verifyAccessToken, PostController.update);
 postRouter.delete("/:id", verifyAccessToken, PostController.delete);
 postRouter.post("/:id/like", verifyAccessToken, PostController.like);

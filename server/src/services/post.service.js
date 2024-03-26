@@ -65,6 +65,22 @@ class PostService {
         }
     }
 
+    static async getComments(id) {
+        try {
+            const post = await Post.findById(id);
+            if (!post) {
+                throw new Error("Post not found");
+            }
+            const comments = await Comment.find({ postId: id }).sort({
+                createdAt: -1,
+            });
+            return comments;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
     static async create(data) {
         try {
             const post = new Post(data);

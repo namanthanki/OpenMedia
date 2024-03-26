@@ -66,6 +66,22 @@ class PostController {
         }
     }
 
+    static async getComments(req, res) {
+        const id = req.params.id;
+        try {
+            const comments = await PostService.getComments(id);
+            return res.status(200).json({
+                comments,
+                message: "Comments retrieved successfully",
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Error occurred while retrieving comments",
+                error: error.message,
+            });
+        }
+    }
+
     static async create(req, res) {
         const author = req.user.id.toString();
         const { content } = req.body;

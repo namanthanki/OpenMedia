@@ -32,10 +32,9 @@ export const PostProvider = ({ children }) => {
 			}
 		};
 
-		
 		fetchPosts();
 	}, []);
-	
+
 	useEffect(() => {
 		const fetchMyPosts = async () => {
 			try {
@@ -56,14 +55,13 @@ export const PostProvider = ({ children }) => {
 				console.log(response.data);
 				setMyPosts(response.data.posts);
 			} catch (error) {
-				console.error(error);	
+				console.error(error);
 			}
 		};
-		if(user) {
-			fetchMyPosts();
-		}
+
+		fetchMyPosts();
 	}, [user]);
-	
+
 	const getById = async (postId) => {
 		try {
 			const response = await axiosPrivate.get(`/post/${postId}`);
@@ -115,7 +113,7 @@ export const PostProvider = ({ children }) => {
 								...p,
 								likes: response.data.post.likes,
 								likesCount: response.data.post.likesCount,
-						}
+						  }
 						: p
 				)
 			);
@@ -134,7 +132,7 @@ export const PostProvider = ({ children }) => {
 								...p,
 								likes: response.data.post.likes,
 								likesCount: response.data.post.likesCount,
-						}
+						  }
 						: p
 				)
 			);

@@ -1,47 +1,47 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 
 import "./styles/comments.css";
+import { axiosPrivate } from "../api/axios";
 
-const handleCommentSubmit = async (commentData) => {
-	// Implement logic to submit new comment to the backend API
-	console.log("Submitting comment:", commentData);
-	try {
-		// Example: Send commentData to backend API for submission
-		// const response = await fetch('/api/comments', {
-		//   method: 'POST',
-		//   body: JSON.stringify(commentData),
-		//   headers: {
-		//     'Content-Type': 'application/json'
-		//   }
-		// });
-		// if (response.ok) {
-		//   // Comment submitted successfully
-		//   fetchComments(); // Fetch updated comments
-		// } else {
-		//   console.error('Failed to submit comment');
-		// }
-	} catch (error) {
-		console.error("Error submitting comment:", error);
-	}
-};
+const Comments = ({ postId }) => {
+	const [commentsData, setCommentsData] = useState([]);
 
-const Comments = ({ commentsListData }) => {
+	useEffect(() => {
+		const fetchComments = async () => {
+			try {
+				const response = await axiosPrivate.get(
+					`/post/${postId}/comments`
+				);
+				console.log(response.data.comments);
+				response.data.comments.map((comment) => {
+					comment.authorProfilePicture = `http://localhost:3000/${
+						comment.authorProfilePicture
+							.split("\\")
+							.join("/")
+							.split("public/")[1]
+					}`;
+					return comment;
+				});
+				setCommentsData(response.data.comments);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		fetchComments();
+	}, [postId]);
+
 	return (
 		<div className="comments-container">
 			<h3 className="comments-title">Comments</h3>
-			<CommentForm onSubmit={handleCommentSubmit} />
+			<CommentForm postId={postId} />
 			<div className="comments-list">
-				{commentsListData.map((commentData) => (
-					<Comment commentData={commentData} key={commentData.id} />
+				{commentsData.map((commentData) => (
+					<Comment commentData={commentData} key={commentData._id} />
 				))}
 			</div>
-			{/* <Link to="/all-comments" state={commentsListData}>
-				<button className="view-more-comments-btn">
-					View More Comments
-				</button>
-			</Link> */}
 		</div>
 	);
 };
