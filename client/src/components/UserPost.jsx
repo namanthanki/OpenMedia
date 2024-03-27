@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import PostAuthorHeader from "./PostAuthorHeader";
 import { useEffect, useState } from "react";
-import "./styles/user-post.css";
+// import "./styles/user-post.css";
 import Comments from "./Comments";
 import { axiosPrivate } from "../api/axios";
 import { usePost } from "../hooks/usePost";

@@ -1,5 +1,5 @@
 import { MdEdit, MdShare, MdMoreVert } from "react-icons/md";
-import "./styles/profile.css";
+// import "./styles/profile.css";
 import PostsList from "../components/PostsList";
 import { useUser } from "../hooks/useUser";
 import { useEffect, useState } from "react";

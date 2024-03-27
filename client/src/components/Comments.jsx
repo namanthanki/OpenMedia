@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 
-import "./styles/comments.css";
+// import "./styles/comments.css";
 import { axiosPrivate } from "../api/axios";
 
 const Comments = ({ postId }) => {

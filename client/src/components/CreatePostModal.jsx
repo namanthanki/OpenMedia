@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles/create-post-modal.css";
+// import "./styles/create-post-modal.css";
 import PostAuthorHeader from "./PostAuthorHeader";
 import { usePost } from "../hooks/usePost";
 import { useUser } from "../hooks/useUser";

@@ -2,7 +2,7 @@ import TrendingPosts from "../components/TrendingPosts";
 import PopularTopics from "../components/PopularTopics";
 import RecommendedUsers from "../components/RecommendedUsers";
 
-import "./styles/explore.css";
+// import "./styles/explore.css";
 
 const ExplorePage = () => {
 	return (

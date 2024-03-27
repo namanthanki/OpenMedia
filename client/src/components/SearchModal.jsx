@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles/search-modal.css";
+// import "./styles/search-modal.css";
 
 const SearchModal = ({ open, onClose }) => {
 	const [searchQuery, setSearchQuery] = useState("");

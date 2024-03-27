@@ -3,7 +3,7 @@ import CreatePost from "../components/CreatePost";
 import PostsList from "../components/PostsList";
 import { useUser } from "../hooks/useUser";
 
-import "./styles/home.css";
+// import "./styles/home.css";
 
 const HomePage = () => {
 	const { user } = useUser();

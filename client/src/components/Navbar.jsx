@@ -11,7 +11,7 @@ import {
 	MdClose,
 } from "react-icons/md";
 
-import "./styles/navbar.css";
+// import "./styles/navbar.css";
 import Sidebar from "./Sidebar";
 import SearchModal from "./SearchModal";
 import CreatePostModal from "./CreatePostModal";
@@ -51,24 +51,24 @@ const Navbar = () => {
 
 	return (
 		<>
-			<div className="navbar">
-				<div className="left">
+			<div className="navbar flex justify-between items-center px-8 fixed top-0 left-0 w-full h-16 z-50 bg-black">
+				<div className="left flex gap-2 justify-center items-center my-auto mx-0">
 					{!isSidebarOpen ? (
 						<MdMenu
-							className="nav-icon sidebar-btn"
+							className="nav-icon sidebar-btn cursor-pointer w-10 text-xl"
 							onClick={toggleSidebar}
 						/>
 					) : (
 						<MdClose
-							className="nav-icon sidebar-btn"
+							className="nav-icon sidebar-btn cursor-pointer w-10 text-xl"
 							onClick={toggleSidebar}
 						/>
 					)}
 					<Link className="nav-logo-link" to="/home">
-						<h1 className="nav-logo">OpenMedia</h1>
+						<h1 className="nav-logo text-2xl">OpenMedia</h1>
 					</Link>
 				</div>
-				<ul className="nav-links">
+				<ul className="nav-links flex justify-center gap-4 text-2xl">
 					<li className="nav-link">
 						<Link to="/home">
 							<MdHome className="nav-icon" />

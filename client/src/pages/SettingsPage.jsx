@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './styles/settings.css';
+// import './styles/settings.css';
 
 const SettingsPage = () => {
   const [settings, setSettings] = useState({

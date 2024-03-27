@@ -1,4 +1,4 @@
-import "./styles/post-author-header.css";
+// import "./styles/post-author-header.css";
 
 const PostAuthorHeader = ({ authorImage, authorName, authorUsername }) => {
 	return (

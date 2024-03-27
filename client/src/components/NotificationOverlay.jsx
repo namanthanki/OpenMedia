@@ -1,4 +1,4 @@
-import "./styles/notification-overlay.css";
+// import "./styles/notification-overlay.css";
 
 const NotificationOverlay = ({ onClose }) => {
 	const notifications = [

@@ -3,7 +3,7 @@ import UserPost from "./UserPost";
 import { usePost } from "../hooks/usePost";
 import { useLocation } from "react-router-dom";
 
-import "./styles/posts.css";
+// import "./styles/posts.css";
 
 const PostsList = () => {
 	const location = useLocation();

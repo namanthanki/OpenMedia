@@ -1,6 +1,6 @@
 import { MdSend } from "react-icons/md";
 
-import "./styles/chat.css";
+// import "./styles/chat.css";
 
 const ChatsPage = () => {
 	return (

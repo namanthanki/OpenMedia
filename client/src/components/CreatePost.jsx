@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CreatePostModal from "./CreatePostModal";
 
-import "./styles/create-post.css";
+// import "./styles/create-post.css";
 
 const CreatePost = ({ authorImage, authorUsername }) => {
 	const [openModal, setOpenModal] = useState(false);

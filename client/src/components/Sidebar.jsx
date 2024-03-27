@@ -2,7 +2,7 @@ import SidebarItem from "./SidebarItem";
 import { useNavigate, Link } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 
-import "./styles/sidebar.css";
+// import "./styles/sidebar.css";
 
 
 const Sidebar = ({ isSidebarOpen }) => {
