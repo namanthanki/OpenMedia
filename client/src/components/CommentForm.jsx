@@ -26,9 +26,9 @@ const CommentForm = ({ postId }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="comment-form">
+		<form onSubmit={handleSubmit} className="comment-form flex justify-between items-center gap-4">
 			<textarea
-				className="comment-input"
+				className="comment-input w-full max-h-11 p-2 text-primary bg-anotherBlack border border-accent rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
 				value={text}
 				onChange={handleChange}
 				placeholder="Write a comment..."
@@ -36,7 +36,7 @@ const CommentForm = ({ postId }) => {
 			></textarea>
 			<MdSend
 				type="submit"
-				className="comment-submit"
+				className="comment-submit text-3xl"
 				onClick={handleSubmit}
 			/>
 		</form>

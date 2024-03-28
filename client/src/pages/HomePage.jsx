@@ -21,7 +21,7 @@ const HomePage = () => {
 	}
 
 	return (
-		<div className="home-container">
+		<div className="home-container flex flex-col justify-center items-center gap-4 mt-24">
 			<CreatePost
 				authorImage={user?.profilePicture}
 				authorUsername={user?.username}

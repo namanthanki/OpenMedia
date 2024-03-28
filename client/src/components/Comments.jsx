@@ -34,10 +34,10 @@ const Comments = ({ postId }) => {
 	}, [postId]);
 
 	return (
-		<div className="comments-container">
+		<div className="comments-container flex flex-col w-full gap-2">
 			<h3 className="comments-title">Comments</h3>
 			<CommentForm postId={postId} />
-			<div className="comments-list">
+			<div className="comments-list flex flex-col gap-2 my-1 w-full">
 				{commentsData.map((commentData) => (
 					<Comment commentData={commentData} key={commentData._id} />
 				))}

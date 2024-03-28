@@ -23,7 +23,7 @@ const PostsList = () => {
 	}
 
 	return (
-		<div className="posts-container">
+		<div className="posts-container flex flex-col gap-4">
 			{currentPath === "/profile" ? (
 				myPosts.length > 0 ? (
 					myPosts.map((postData) => (
