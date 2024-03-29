@@ -50,6 +50,11 @@ const privateRoutes = [
 		name: "ProfilePage",
 	},
 	{
+		path: "/profile/:userId",
+		component: <ProfilePage />,
+		name: "ProfilePage",
+	},
+	{
 		path: "/chats/:chatId",
 		component: <ChatsPage />,
 		name: "ChatsPage",

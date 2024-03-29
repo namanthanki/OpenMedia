@@ -85,6 +85,10 @@ class PostService {
         try {
             const post = new Post(data);
             await post.save();
+
+            const author = await User.findById(post.author);
+            author.posts.push(post._id.toString());
+
             return post;
         } catch (error) {
             console.error(error);
@@ -211,6 +215,12 @@ class PostService {
             }
 
             await post.delete();
+
+            const authorData = await User.findById(author);
+            authorData.posts = authorData.posts.filter(
+                (postId) => postId.toString() !== id,
+            );
+            
             return post;
         } catch (error) {
             console.error(error);
