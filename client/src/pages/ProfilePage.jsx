@@ -2,55 +2,56 @@ import {
     MdEdit,
     MdShare,
     MdMoreVert,
-    MdFollowTheSigns,
     MdPersonAdd,
     MdPersonRemove,
-    MdPersonAddAlt,
-    MdPersonAddAlt1,
-    MdPerson2,
 } from "react-icons/md";
 import PostsList from "../components/PostsList";
 import { useUser } from "../hooks/useUser";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
 
 const ProfilePage = () => {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
     const [loading, setLoading] = useState(true);
     const { userId } = useParams();
     const [otherUser, setOtherUser] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOtherUser = async () => {
             await axiosPrivate
                 .get(`/user/${userId}`)
                 .then((res) => {
-                    const user = res.data.user;
-                    user.profilePicture = `http://localhost:3000/${
-                        user.profilePicture
+                    const fetchedUser = res.data.user;
+                    fetchedUser.profilePicture = `http://localhost:3000/${
+                        fetchedUser.profilePicture
                             .split("\\")
                             .join("/")
                             .split("public/")[1]
                     }`;
-                    user.coverPicture = `http://localhost:3000/${
-                        user.coverPicture
+                    fetchedUser.coverPicture = `http://localhost:3000/${
+                        fetchedUser.coverPicture
                             .split("\\")
                             .join("/")
                             .split("public/")[1]
                     }`;
                     setLoading(false);
-                    setOtherUser(user);
+                    setOtherUser(fetchedUser);
                 })
                 .catch((err) => console.log(err));
         };
 
         if (userId) {
-            try {
-                setLoading(true);
-                fetchOtherUser();
-            } catch (error) {
-                console.log(error);
+            if (userId === user?._id) {
+                navigate("/profile", { replace: true });
+            } else {
+                try {
+                    setLoading(true);
+                    fetchOtherUser();
+                } catch (error) {
+                    console.log(error);
+                }
             }
         }
     }, [userId]);
@@ -64,6 +65,80 @@ const ProfilePage = () => {
     if (loading) {
         return <div>Loading...</div>;
     }
+
+    const handleFollow = async () => {
+        await axiosPrivate
+            .post(`/user/follow/${userId}`)
+            .then((res) => {
+                res.data.user.user.profilePicture = `http://localhost:3000/${
+                    res.data.user.user.profilePicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                res.data.user.user.coverPicture = `http://localhost:3000/${
+                    res.data.user.user.coverPicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                res.data.user.followUser.profilePicture = `http://localhost:3000/${
+                    res.data.user.followUser.profilePicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                res.data.user.followUser.coverPicture = `http://localhost:3000/${
+                    res.data.user.followUser.coverPicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                setUser((user) => ({ ...user, ...res.data.user.user }));
+                setOtherUser((otherUser) => ({
+                    ...otherUser,
+                    ...res.data.user.followUser,
+                }));
+            })
+            .catch((err) => console.log(err));
+    };
+
+    const handleUnfollow = async () => {
+        await axiosPrivate
+            .post(`/user/unfollow/${userId}`)
+            .then((res) => {
+                res.data.user.user.profilePicture = `http://localhost:3000/${
+                    res.data.user.user.profilePicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                res.data.user.user.coverPicture = `http://localhost:3000/${
+                    res.data.user.user.coverPicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                res.data.user.unfollowUser.profilePicture = `http://localhost:3000/${
+                    res.data.user.unfollowUser.profilePicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                res.data.user.unfollowUser.coverPicture = `http://localhost:3000/${
+                    res.data.user.unfollowUser.coverPicture
+                        .split("\\")
+                        .join("/")
+                        .split("public/")[1]
+                }`;
+                setUser((user) => ({ ...user, ...res.data.user.user }));
+                setOtherUser((otherUser) => ({
+                    ...otherUser,
+                    ...res.data.user.unfollowUser,
+                }));
+            })
+            .catch((err) => console.log(err));
+    };
 
     return (
         <div className="flex flex-col items-center justify-center gap-2 pt-32 pb-20">
@@ -108,6 +183,22 @@ const ProfilePage = () => {
                             {otherUser ? (
                                 <>
                                     {user.followings.includes(otherUser._id) ? (
+                                        <button
+                                            onClick={handleUnfollow}
+                                            className="bg-anotherBlack text-white px-4 py-1 rounded-full text-sm"
+                                        >
+                                            Following
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={handleFollow}
+                                            className="bg-accent text-white px-4 py-1 rounded-full text-sm"
+                                        >
+                                            Follow
+                                        </button>
+                                    )}
+
+                                    {user.friends.includes(otherUser._id) ? (
                                         <MdPersonRemove className="text-xl text-white cursor-pointer" />
                                     ) : (
                                         <MdPersonAdd className="text-xl text-white cursor-pointer" />
