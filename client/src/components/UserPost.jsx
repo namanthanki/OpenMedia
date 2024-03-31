@@ -68,6 +68,7 @@ const UserPost = ({ postData }) => {
 		<div className="post flex flex-col bg-formColor rounded-md px-4 py-5 gap-4">
 			<div className="post-header flex items-center justify-between">
 				<PostAuthorHeader
+					authorId={postUser?._id}
 					authorImage={postUser?.profilePicture}
 					authorUsername={postUser?.username}
 					authorName={`${postUser?.firstName} ${postUser?.lastName}`}
@@ -116,12 +117,13 @@ const UserPost = ({ postData }) => {
 					<span className="shares-count">
 						{postData?.repostsCount}
 					</span>{" "}
-					Shares
+					Reposts
 				</div>
 			</div>
 			{showComments && (
 				<Comments
 					postId={postData._id}
+					postData={postData}
 				/>
 			)}
 		</div>

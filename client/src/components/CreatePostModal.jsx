@@ -130,7 +130,7 @@ const CreatePostModal = ({ open, onClose }) => {
 	};
 
 	return (
-		<div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center ${open ? 'block' : 'hidden'}`}>
+		<div className={`fixed z-50 top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center ${open ? 'block' : 'hidden'}`}>
 			<div className="modal-content w-1/3 bg-formColor rounded-lg p-16">
 				<h2 className="create-post-header text-2xl text-center font-bold text-accent-color mb-5">Create Post</h2>
 				<PostAuthorHeader

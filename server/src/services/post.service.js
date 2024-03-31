@@ -196,7 +196,10 @@ class PostService {
             post.comments.push(comment._id.toString());
             post.commentsCount = post.commentsCount + 1;
             await post.save();
-            return post;
+            return {
+                comment,
+                post,
+            };
         } catch (error) {
             console.error(error);
             throw new Error(error.message);
@@ -220,7 +223,7 @@ class PostService {
             authorData.posts = authorData.posts.filter(
                 (postId) => postId.toString() !== id,
             );
-            
+
             return post;
         } catch (error) {
             console.error(error);

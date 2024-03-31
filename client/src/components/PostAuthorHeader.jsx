@@ -1,10 +1,13 @@
 // import "./styles/post-author-header.css";
+import { useNavigate } from "react-router-dom";
 
-const PostAuthorHeader = ({ authorImage, authorName, authorUsername }) => {
+const PostAuthorHeader = ({ authorId, authorImage, authorName, authorUsername }) => {
+	const navigate = useNavigate();
 	return (
 		<div className="post-author-header flex items-center gap-2">
 			<img
-				className="author-profile-img w-10 h-10 rounded-full object-cover"
+				onClick={() => { navigate(`/profile/${authorId}`); }}
+				className="author-profile-img w-10 h-10 rounded-full object-cover cursor-pointer"
 				src={authorImage}
 				alt={`${authorUsername}'s Image`}
 			/>

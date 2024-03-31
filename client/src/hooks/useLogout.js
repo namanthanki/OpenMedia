@@ -1,14 +1,19 @@
 import { axiosPrivate } from "../api/axios"
 import { useUser } from "./useUser";
 import useAuth from "./useAuth";
+import { usePost } from "./usePost";
 
 const useLogout = () => {
-    const { setUser, setNeedsRefetch } = useUser();
+    const { setUser, setNeedsRefetch, setLoading } = useUser();
     const { setAuth, setPersist } = useAuth();
+    const { setPosts, setMyPosts } = usePost();
 
     const logout = async () => {
         try {
-            setUser({});
+            setPosts([]);
+            setMyPosts([]);
+            setUser(null);
+            setLoading(true);
             setAuth({});
             setPersist(false);
             setNeedsRefetch(true);

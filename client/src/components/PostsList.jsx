@@ -6,7 +6,7 @@ import { axiosPrivate } from "../api/axios";
 
 const PostsList = ({ userId }) => {
     const location = useLocation();
-	const navigate = useNavigate();
+    const navigate = useNavigate();
     const currentPath = location.pathname;
     const { posts, myPosts } = usePost();
     const [loading, setLoading] = useState(true);
@@ -17,11 +17,21 @@ const PostsList = ({ userId }) => {
             await axiosPrivate
                 .get(`/post/profile/${userId}`)
                 .then((res) => {
+                    res.data.posts.forEach((post) => {
+                        if (post.image) {
+                            post.image =
+                                "http://localhost:3000/" +
+                                post.image
+                                    .split("\\")
+                                    .join("/")
+                                    .split("public/")[1];
+                        }
+                    });
                     setOtherUserPosts(res.data.posts);
                 })
                 .catch((err) => {
-					navigate("/profile");
-				} );
+                    navigate("/profile");
+                });
         };
 
         if (userId) {

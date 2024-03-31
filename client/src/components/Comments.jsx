@@ -5,7 +5,7 @@ import CommentForm from "./CommentForm";
 // import "./styles/comments.css";
 import { axiosPrivate } from "../api/axios";
 
-const Comments = ({ postId }) => {
+const Comments = ({ postId, postData }) => {
 	const [commentsData, setCommentsData] = useState([]);
 
 	useEffect(() => {
@@ -36,7 +36,7 @@ const Comments = ({ postId }) => {
 	return (
 		<div className="comments-container flex flex-col w-full gap-2">
 			<h3 className="comments-title">Comments</h3>
-			<CommentForm postId={postId} />
+			<CommentForm postId={postId} postData={postData} setComments={setCommentsData} />
 			<div className="comments-list flex flex-col gap-2 my-1 w-full">
 				{commentsData.map((commentData) => (
 					<Comment commentData={commentData} key={commentData._id} />
