@@ -79,6 +79,30 @@ class ChatController {
             });
         }
     }
+
+    static async searchUsers(req, res) {
+        const userId = req.user.id;
+        const query = req.params.query;
+        try {
+            const users = await ChatService.searchUsers(userId, query);
+
+            if (!users) {
+                return res.status(404).json({
+                    message: "Users not found",
+                });
+            }
+
+            return res.status(200).json({
+                users,
+                message: "Users retrieved successfully",
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Error occurred while retrieving users",
+                error: error.message,
+            });
+        }
+    }
 }
 
 export default ChatController;

@@ -6,6 +6,7 @@ const chatRouter = express.Router();
 
 chatRouter.get("/", verifyAccessToken, ChatController.getConversations);
 chatRouter.get("/:id", verifyAccessToken, ChatController.getMessages);
+chatRouter.get("/user/:query", verifyAccessToken, ChatController.searchUsers);
 chatRouter.post("/", verifyAccessToken, ChatController.create);
 
 export default chatRouter;

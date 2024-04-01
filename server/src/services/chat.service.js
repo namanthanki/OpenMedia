@@ -1,5 +1,6 @@
 import { Conversation } from "../models/conversation.model.js";
 import { Message } from "../models/message.model.js";
+import { User } from "../models/user.model.js";
 
 class ChatService {
     static async create(data) {
@@ -69,6 +70,26 @@ class ChatService {
             }).populate("members");
 
             return conversations;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async searchUsers(userId, query) {
+        try {
+            const users = await User.find({
+                $and: [
+                    { _id: { $ne: userId } },
+                    {
+                        $or: [
+                            { username: { $regex: query, $options: "i" } },
+                            { email: { $regex: query, $options: "i" } },
+                        ],
+                    },
+                ],
+            });
+
+            return users;
         } catch (error) {
             throw error;
         }

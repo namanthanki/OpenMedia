@@ -1,6 +1,16 @@
-const ConversationTile = ({ name, message, avatar }) => {
+const ConversationTile = ({
+    id,
+    userId,
+    name,
+    message,
+    avatar,
+    handleClick,
+}) => {
     return (
-        <div className="flex items-center mb-4 cursor-pointer hover:bg-formColor p-2 rounded-md">
+        <div
+            className="flex items-center mb-4 cursor-pointer hover:bg-formColor p-2 rounded-md"
+            onClick={() => handleClick(id, userId, avatar, name)}
+        >
             <div className="w-12 h-12 rounded-full mr-3">
                 <img
                     src={avatar}
