@@ -50,6 +50,7 @@ const ChatsPage = () => {
 
             <ConversationBar
                 conversations={conversations}
+                setConversations={setConversations}
                 setSelectedConversation={setSelectedConversation}
             />
             {!selectedConversation && (

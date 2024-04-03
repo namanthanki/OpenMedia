@@ -3,18 +3,24 @@ import { useUser } from "../hooks/useUser";
 import { useState } from "react";
 import { axiosPrivate } from "../api/axios";
 
-const ConversationBar = ({ conversations, setSelectedConversation }) => {
+const ConversationBar = ({
+    conversations,
+    setConversations,
+    setSelectedConversation,
+}) => {
     const { user } = useUser();
     const [searching, setSearching] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleSelectConversation = (
+        mock,
         id,
         userId,
         userProfilePicture,
         username
     ) => {
         setSelectedConversation({
+            mock,
             conversationId: id,
             userId,
             userProfilePicture,
@@ -30,7 +36,58 @@ const ConversationBar = ({ conversations, setSelectedConversation }) => {
                 `/chat/user/${searchQuery}`
             );
 
-            console.log(response.data);
+            response.data.user.profilePicture = `http://localhost:3000/${
+                response.data.user.profilePicture
+                    .split("\\")
+                    .join("/")
+                    .split("public/")[1]
+            }`;
+
+            const foundUserId = response.data.user._id;
+            let membersIds = [];
+            conversations.map((conversation) => {
+                membersIds = [
+                    ...membersIds,
+                    ...conversation.members.map((member) => member._id),
+                ];
+            });
+
+            if (membersIds.includes(foundUserId)) {
+                const conversation = conversations.find((conversation) =>
+                    conversation.members.some(
+                        (member) => member._id === foundUserId
+                    )
+                );
+
+                const memberToDisplay = conversation.members.filter(
+                    (member) => member._id !== user._id
+                )[0];
+
+                handleSelectConversation(
+                    conversation._id,
+                    memberToDisplay._id,
+                    memberToDisplay.profilePicture,
+                    memberToDisplay.username
+                );
+            } else {
+                const mockConversation = {
+                    mock: true,
+                    lastMessage: {
+                        message: "",
+                        sender: "",
+                    },
+                    _id: Date.now(),
+                    members: [
+                        {
+                            _id: foundUserId,
+                            username: response.data.user.username,
+                            profilePicture: response.data.user.profilePicture,
+                        },
+                    ],
+                };
+
+                setConversations((prev) => [...prev, mockConversation]);
+            }
         } catch (error) {
             console.error(error);
         } finally {
@@ -44,7 +101,7 @@ const ConversationBar = ({ conversations, setSelectedConversation }) => {
                 <h1 className="text-2xl font-semibold">Chats</h1>
             </header>
             <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
-                <form className="flex items-center justify-between p-2 bg-formColor rounded-md">
+                <form className="flex items-center justify-between p-2 mb-2 bg-formColor rounded-md">
                     <input
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -79,6 +136,7 @@ const ConversationBar = ({ conversations, setSelectedConversation }) => {
                     return (
                         <ConversationTile
                             key={memberToDisplay._id}
+                            mock={conversation.mock}
                             id={conversation._id}
                             userId={memberToDisplay._id}
                             name={memberToDisplay.username}

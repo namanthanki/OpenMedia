@@ -20,8 +20,12 @@ const Chat = ({ conversation, setConversations }) => {
                 console.error(error);
             }
         };
-
-        getMessages();
+        if (!conversation.mock) {
+            console.log(conversation);
+            getMessages();
+        } else {
+            setLoading(false);
+        }
     }, [conversation.userId]);
 
     const handleSubmit = async (e) => {

@@ -1,4 +1,5 @@
 const ConversationTile = ({
+    mock,
     id,
     userId,
     name,
@@ -9,13 +10,13 @@ const ConversationTile = ({
     return (
         <div
             className="flex items-center mb-4 cursor-pointer hover:bg-formColor p-2 rounded-md"
-            onClick={() => handleClick(id, userId, avatar, name)}
+            onClick={() => handleClick(mock, id, userId, avatar, name)}
         >
             <div className="w-12 h-12 rounded-full mr-3">
                 <img
                     src={avatar}
                     alt="User Avatar"
-                    className="w-12 h-12 rounded-full"
+                    className="w-12 h-12 rounded-full object-cover"
                 />
             </div>
             <div className="flex-1">

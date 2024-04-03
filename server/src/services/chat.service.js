@@ -75,21 +75,13 @@ class ChatService {
         }
     }
 
-    static async searchUsers(userId, query) {
+    static async searchUserByUsername(username) {
         try {
-            const users = await User.find({
-                $and: [
-                    { _id: { $ne: userId } },
-                    {
-                        $or: [
-                            { username: { $regex: query, $options: "i" } },
-                            { email: { $regex: query, $options: "i" } },
-                        ],
-                    },
-                ],
+            const user = await User.findOne({
+                username: username,
             });
 
-            return users;
+            return user;
         } catch (error) {
             throw error;
         }

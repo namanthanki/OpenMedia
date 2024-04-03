@@ -80,25 +80,24 @@ class ChatController {
         }
     }
 
-    static async searchUsers(req, res) {
-        const userId = req.user.id;
-        const query = req.params.query;
+    static async searchUserByUsername(req, res) {
+        const { username } = req.params;
         try {
-            const users = await ChatService.searchUsers(userId, query);
+            const user = await ChatService.searchUserByUsername(username);
 
-            if (!users) {
+            if (!user) {
                 return res.status(404).json({
-                    message: "Users not found",
+                    message: "User not found",
                 });
             }
 
             return res.status(200).json({
-                users,
-                message: "Users retrieved successfully",
+                user,
+                message: "User retrieved successfully",
             });
         } catch (error) {
             res.status(500).json({
-                message: "Error occurred while retrieving users",
+                message: "Error occurred while retrieving user",
                 error: error.message,
             });
         }
