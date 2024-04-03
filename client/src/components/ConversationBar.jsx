@@ -96,7 +96,7 @@ const ConversationBar = ({
     };
 
     return (
-        <div className="w-1/4 mt-20 bg-anotherBlack border-r border-gray-950">
+        <div className="w-1/4 mt-20 bg-anotherBlack border-r border-gray-950 fixed left-0 top-0">
             <header className="p-4 border-b border-gray-950 flex justify-between items-center bg-accent text-white">
                 <h1 className="text-2xl font-semibold">Chats</h1>
             </header>

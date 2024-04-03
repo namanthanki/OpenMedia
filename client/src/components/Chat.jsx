@@ -1,11 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Message from "./Message";
 import { axiosPrivate } from "../api/axios";
+import { useSocket } from "../hooks/useSocket";
 
 const Chat = ({ conversation, setConversations }) => {
     const [loading, setLoading] = useState(true);
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
+    const lastMessageRef = useRef(null);
+    const { socket } = useSocket();
+
+    useEffect(() => {
+        socket.on("newMessage", (message) => {
+            if (conversation._id === message.conversationId) {
+                setMessages((prevMessages) => [...prevMessages, message]);
+            }
+
+            setConversations((prevConversations) => {
+                const updatedConversations = prevConversations.map(
+                    (prevConversation) => {
+                        if (
+                            prevConversation._id === message.conversationId
+                        ) {
+                            return {
+                                ...prevConversation,
+                                lastMessage: {
+                                    message: message.message,
+                                    sender: message.sender,
+                                },
+                            };
+                        }
+
+                        return prevConversation;
+                    }
+                );
+
+                return updatedConversations;
+            });
+        });
+
+        return () => {
+            socket.off("newMessage");
+        };
+    }, [socket, setConversations, conversation]);
 
     useEffect(() => {
         const getMessages = async () => {
@@ -27,6 +64,12 @@ const Chat = ({ conversation, setConversations }) => {
             setLoading(false);
         }
     }, [conversation.userId]);
+
+    useEffect(() => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -77,7 +120,7 @@ const Chat = ({ conversation, setConversations }) => {
     };
 
     return (
-        <div className="flex-1 mt-20">
+        <div className="flex-1 mt-20 fixed right-0 top-0 bottom-0 w-[calc(100%-25%)]">
             <header className="bg-formColor p-4 text-primary">
                 <h1 className="text-2xl font-semibold">
                     {conversation.username}
@@ -86,15 +129,23 @@ const Chat = ({ conversation, setConversations }) => {
             <div className="h-screen overflow-y-auto p-4 pb-36">
                 {loading && <p>Loading...</p>}
                 {messages.map((message) => (
-                    <Message
+                    <div
                         key={message._id}
-                        avatar={conversation.userProfilePicture}
-                        text={message.message}
-                        isOutgoing={message.sender !== conversation.userId}
-                    />
+                        ref={
+                            messages.length - 1 === messages.indexOf(message)
+                                ? lastMessageRef
+                                : null
+                        }
+                    >
+                        <Message
+                            avatar={conversation.userProfilePicture}
+                            text={message.message}
+                            isOutgoing={message.sender !== conversation.userId}
+                        />
+                    </div>
                 ))}
             </div>
-            <footer className="bg-formColor border-t border-gray-950 p-4 absolute bottom-0 w-3/4">
+            <footer className="bg-formColor border-t border-gray-950 p-4 absolute right-0 bottom-0 w-full">
                 <form onSubmit={handleSubmit} className="flex items-center">
                     <input
                         value={message}

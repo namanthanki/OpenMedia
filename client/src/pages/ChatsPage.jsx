@@ -54,7 +54,7 @@ const ChatsPage = () => {
                 setSelectedConversation={setSelectedConversation}
             />
             {!selectedConversation && (
-                <div className="w-3/4 h-screen">
+                <div className="ml-[calc(100%-75%)] w-full h-screen">
                     <div className="flex items-center justify-center w-full h-full">
                         <p className="text-anotherGray text-2xl">
                             Select a conversation to start chatting

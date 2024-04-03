@@ -1,6 +1,7 @@
 import { Conversation } from "../models/conversation.model.js";
 import { Message } from "../models/message.model.js";
 import { User } from "../models/user.model.js";
+import { getRecipientSocketId, io } from "../socket/socket.js";
 
 class ChatService {
     static async create(data) {
@@ -36,6 +37,11 @@ class ChatService {
                     },
                 }),
             ]);
+
+            const recipientId = getRecipientSocketId(data.receiver);
+            if(recipientId) {
+                io.to(recipientId).emit("newMessage", message);
+            }
 
             return message;
         } catch (error) {
