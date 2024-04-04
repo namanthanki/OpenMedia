@@ -49,7 +49,6 @@ const LoginPage = () => {
 			const accessToken = response?.data?.user.accessToken;
 			const refreshToken = response?.data?.user.refreshToken;
 			setAuth({ userId, accessToken, refreshToken });
-			console.log(response?.data?.user.isSetup);
 			if (response?.data?.user?.isSetup === false) {
 				navigate("/setup", { replace: true });
 				return;

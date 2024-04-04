@@ -10,6 +10,7 @@ import { useUser } from "../hooks/useUser";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
+import { toast } from "react-hot-toast";
 
 const ProfilePage = () => {
     const { user, setUser } = useUser();
@@ -70,6 +71,11 @@ const ProfilePage = () => {
         await axiosPrivate
             .post(`/user/follow/${userId}`)
             .then((res) => {
+                if (res.data) {
+                    toast.success("User followed successfully", {
+                        icon: "😉",
+                    });
+                }
                 res.data.user.user.profilePicture = `http://localhost:3000/${
                     res.data.user.user.profilePicture
                         .split("\\")
@@ -100,13 +106,21 @@ const ProfilePage = () => {
                     ...res.data.user.followUser,
                 }));
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                toast.error("Error following user");
+                console.log(err);
+            });
     };
 
     const handleUnfollow = async () => {
         await axiosPrivate
             .post(`/user/unfollow/${userId}`)
             .then((res) => {
+                if (res.data) {
+                    toast.success("User unfollowed successfully", {
+                        icon: "😢",
+                    });
+                }
                 res.data.user.user.profilePicture = `http://localhost:3000/${
                     res.data.user.user.profilePicture
                         .split("\\")

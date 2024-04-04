@@ -66,7 +66,7 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className="nav-link">
-                        <Link to="#">
+                        <Link to="/explore">
                             <MdExplore className="nav-icon" />
                         </Link>
                     </li>

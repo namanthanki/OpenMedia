@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MdSend } from "react-icons/md";
 import { axiosPrivate } from "../api/axios";
+import { toast } from "react-hot-toast";
 
 const CommentForm = ({ postId, postData, setComments }) => {
     const [text, setText] = useState("");
@@ -18,6 +19,9 @@ const CommentForm = ({ postId, postData, setComments }) => {
                 { content: text }
             );
             if (response.data) {
+                toast.success("Comment added successfully", {
+                    icon: "🚀",
+                });
                 response.data.comment.authorProfilePicture = `http://localhost:3000/${
                     response.data.comment.authorProfilePicture
                         .split("\\")
@@ -31,6 +35,7 @@ const CommentForm = ({ postId, postData, setComments }) => {
             }
         } catch (error) {
             console.error(error);
+            toast.error("Error adding comment");
         } finally {
             setText("");
         }

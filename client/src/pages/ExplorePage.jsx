@@ -1,18 +1,12 @@
-import TrendingPosts from "../components/TrendingPosts";
-import PopularTopics from "../components/PopularTopics";
-import RecommendedUsers from "../components/RecommendedUsers";
-
 // import "./styles/explore.css";
+
+import UsersGrid from "../components/UsersGrid";
 
 const ExplorePage = () => {
 	return (
-		<div className="explore-page">
-			<h2>Explore</h2>
-			<div className="explore-content">
-				<TrendingPosts />
-				<PopularTopics />
-				<RecommendedUsers />
-				{/* Add more sections or components as needed */}
+		<div className="explorer-page-wrapper w-1/2 h-full flex justify-center items-center mt-24 mb-5">
+			<div className="explorer-page-container">
+				<UsersGrid />
 			</div>
 		</div>
 	);

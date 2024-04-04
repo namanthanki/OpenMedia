@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import { usePost } from "./usePost";
 
 const useLogout = () => {
-    const { setUser, setNeedsRefetch, setLoading } = useUser();
+    const { setUser, setLoading } = useUser();
     const { setAuth, setPersist } = useAuth();
     const { setPosts, setMyPosts } = usePost();
 
@@ -16,7 +16,6 @@ const useLogout = () => {
             setLoading(true);
             setAuth({});
             setPersist(false);
-            setNeedsRefetch(true);
             const response = await axiosPrivate.post("auth/logout", {}, {
                 withCredentials: true
             });

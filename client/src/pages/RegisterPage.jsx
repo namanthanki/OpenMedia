@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import { toast } from "react-hot-toast";
 
 // import "./styles/auth-defaults.css";
 // import "./styles/auth-forms.css";
@@ -37,8 +38,14 @@ const RegisterPage = () => {
 			);
 
 			if (response.status === 201) {
+				toast.success("Account created successfully", {
+					icon: "😇",
+				});
 				navigate("/login");
 			} else {
+				toast.error("Error creating account", {
+					icon: "😢",
+				});
 				console.error(response);
 			}
 		} catch (error) {
