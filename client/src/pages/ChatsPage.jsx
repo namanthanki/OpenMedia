@@ -1,34 +1,75 @@
-import { MdSend } from "react-icons/md";
-
-import "./styles/chat.css";
+import ConversationBar from "../components/ConversationBar";
+import Chat from "../components/Chat";
+import { useEffect, useState } from "react";
+import { axiosPrivate } from "../api/axios";
 
 const ChatsPage = () => {
-	return (
-		<div className="chat-wrapper">
-			<div className="chat-container">
-				<div className="chat-header">Username</div>
-				<div className="chat-messages">
-					<div className="message sent">
-						<div className="message-text">
-							Hello! How are you doing?
-						</div>
-						<div className="message-time">10:00 AM</div>
-					</div>
-					<div className="message received">
-						<div className="message-text">
-							Hi there! I&#39;m good, thanks for asking.
-						</div>
-						<div className="message-time">10:05 AM</div>
-					</div>
-					{/* More messages go here */}
-				</div>
-				<div className="chat-input">
-					<input type="text" placeholder="Type a message..." />
-					<MdSend className="send-icon" />
-				</div>
-			</div>
-		</div>
-	);
+    const [loading, setLoading] = useState(true);
+    const [conversations, setConversations] = useState([]);
+    const [selectedConversation, setSelectedConversation] = useState(null);
+
+    useEffect(() => {
+        const getConversations = async () => {
+            try {
+                const response = await axiosPrivate.get("/chat");
+
+                Promise.all(
+                    response.data.conversations.map((conversation) => {
+                        conversation.members.map((member) => {
+                            member.profilePicture = `http://localhost:3000/${
+                                member.profilePicture
+                                    .split("\\")
+                                    .join("/")
+                                    .split("public/")[1]
+                            }`;
+
+                            return member;
+                        });
+                        return conversation;
+                    })
+                );
+
+                setConversations(response.data.conversations);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getConversations();
+    }, []);
+
+    return (
+        <div className="flex h-screen overflow-hidden">
+            {loading && (
+                <div className="flex items-center justify-center w-full h-full">
+                    <p>Loading...</p>
+                </div>
+            )}
+
+            <ConversationBar
+                conversations={conversations}
+                setConversations={setConversations}
+                setSelectedConversation={setSelectedConversation}
+            />
+            {!selectedConversation && (
+                <div className="ml-[calc(100%-75%)] w-full h-screen">
+                    <div className="flex items-center justify-center w-full h-full">
+                        <p className="text-anotherGray text-2xl">
+                            Select a conversation to start chatting
+                        </p>
+                    </div>
+                </div>
+            )}
+            {selectedConversation && (
+                <Chat
+                    conversation={selectedConversation}
+                    setConversations={setConversations}
+                />
+            )}
+        </div>
+    );
 };
 
 export default ChatsPage;

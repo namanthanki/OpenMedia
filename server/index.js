@@ -12,6 +12,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
+import { app, server } from "./src/socket/socket.js";
 import { connectDatabase } from "./src/config/db.config.js";
 
 // Environment variables
@@ -19,8 +20,8 @@ dotenv.config({
     path: "/.env",
 });
 
-// Express app
-const app = express();
+// Express app (not needed here as we are using the app from socket.js)
+// const app = express();
 
 // Middlewares
 app.use(
@@ -48,7 +49,8 @@ app.use(apiRouter);
 const port = 3000 || process.env.PORT;
 const hostname = process.env.HOSTNAME || "127.0.0.1";
 
-app.listen(port, hostname, () => {
+// Change app to server if using socket.io
+server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
     connectDatabase();
 });

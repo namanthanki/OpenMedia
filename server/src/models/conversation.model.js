@@ -9,12 +9,15 @@ const conversationSchema = new Schema(
                 ref: "User",
             },
         ],
-        messages: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Message",
+        lastMessage: {
+            message: {
+                type: String,
             },
-        ],
+            sender: {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        },
     },
     { timestamps: true },
 );

@@ -48,18 +48,18 @@ const SetupUser = () => {
 	};
 
 	return (
-		<div className="auth-container">
-			<div className="auth-wrapper">
-				<h1 className="form-title">Profile Setup</h1>
+		<div className="auth-container flex justify-center items-center h-screen">
+			<div className="auth-wrapper flex flex-col justify-center items-center bg-formColor shadow rounded-md p-8 h-fit w-1/3 gap-2">
+				<h1 className="form-title text-3xl text-accent font-semibold">Profile Setup</h1>
 
 				<form
-					className="profile-setup-form"
+					className="profile-setup-form flex flex-col mt-4 gap-3 w-full"
 					encType="multipart/form-data"
 					onSubmit={handleSubmit}
 				>
-					<div className="form-row">
-						<div className="form-cell">
-							<label htmlFor="profilePicture">
+					<div className="form-row flex gap-4">
+						<div className="form-cell flex-1">
+							<label htmlFor="profilePicture block text-md font-light text-primary">
 								Profile Picture
 							</label>
 							<input
@@ -69,8 +69,8 @@ const SetupUser = () => {
 								onChange={handleProfilePictureChange}
 							/>
 						</div>
-						<div className="form-cell">
-							<label htmlFor="coverPicture">Cover Picture</label>
+						<div className="form-cell flex-1">
+							<label htmlFor="coverPicture block text-md font-light text-primary">Cover Picture</label>
 							<input
 								type="file"
 								id="coverPicture"
@@ -79,19 +79,20 @@ const SetupUser = () => {
 							/>
 						</div>
 					</div>
-					<div className="form-row">
-						<div className="form-cell full">
-							<label htmlFor="bio">Bio</label>
+					<div className="form-row flex gap-4">
+						<div className="form-cell full flex-1">
+							<label className="block text-md font-light text-primary" htmlFor="bio">Bio</label>
 							<textarea
+								className=" w-full p-2 bg-transparent rounded-md border border-accent outline outline-accent outline-0 focus:outline-1 transition-all shadow-sm sm:text-sm"
 								id="bio"
 								name="bio"
 								onChange={handleBioChange}
 							></textarea>
 						</div>
 					</div>
-					<div className="form-row">
-						<div className="form-cell full">
-							<button className="submit-btn" type="submit">
+					<div className="form-row flex">
+						<div className="form-cell full flex-1 w-full">
+							<button className="submit-btn block my-4 w-full py-2 text-accent font-medium cursor-pointer border-2 border-accent rounded-full text-center hover:bg-accent hover:text-primary hover:transition-colors" type="submit">
 								Save
 							</button>
 						</div>

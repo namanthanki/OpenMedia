@@ -179,15 +179,16 @@ class PostController {
         const author = req.user.id;
         const { content } = req.body;
         try {
-            const post = await PostService.comment(id, content, author);
-            if (!post) {
+            const data = await PostService.comment(id, content, author);
+            if (!data) {
                 return res.status(404).json({
                     message: "Post not found",
                 });
             }
 
             return res.status(200).json({
-                post,
+                post: data.post,
+                comment: data.comment,
                 message: "Comment added successfully",
             });
         } catch (error) {

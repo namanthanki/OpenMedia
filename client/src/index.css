@@ -1,3 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #0c0c0c;
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #0f0e2c;
+    border-radius: 5px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #13113a;
+}
+
 /*
     Boilerplate CSS for the entire application.
 */
@@ -9,7 +35,7 @@
 	--accent-color: #4b3cf5;
 }
 
-*,
+/* *,
 *::before,
 *::after {
 	box-sizing: border-box;
@@ -23,10 +49,10 @@
 
 :focus:not(:focus-visible) {
 	outline: none;
-}
+} */
 
 html {
-	font-size: 62.5%;
+	/* font-size: 62.5%; */
 	-webkit-text-size-adjust: none;
 	text-size-adjust: none;
 }
@@ -40,6 +66,7 @@ body {
 	color: var(--primary-text-color);
 }
 
+/*
 label,
 button,
 select,
@@ -53,7 +80,7 @@ summary,
 menu:not(article menu),
 ol:not(article ol),
 ul:not(article ul) {
-	list-style: none; /* can add role="list" */
+	list-style: none;
 }
 
 menu,
@@ -68,8 +95,6 @@ article ul {
 }
 
 a {
-	/* text-underline-position: under;
-	text-decoration-thickness: 8%; */
 	text-decoration: none;
 }
 
@@ -77,5 +102,5 @@ img {
 	display: block;
 	max-width: 100%;
 }
-
+*/
 

@@ -2,6 +2,7 @@ import express from "express";
 import authRouter from "./auth.route.js";
 import userRouter from "./user.route.js";
 import postRouter from "./post.route.js";
+import chatRouter from "./chat.route.js";
 
 const apiRouter = express.Router();
 const baseUrl = "/api/v1";
@@ -16,5 +17,6 @@ apiRouter.get(`${baseUrl}/`, (req, res) => {
 apiRouter.use(`${baseUrl}/auth`, authRouter);
 apiRouter.use(`${baseUrl}/user`, userRouter);
 apiRouter.use(`${baseUrl}/post`, postRouter);
+apiRouter.use(`${baseUrl}/chat`, chatRouter);
 
 export default apiRouter;

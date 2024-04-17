@@ -13,18 +13,9 @@ const messageSchema = new Schema(
             ref: "User",
             required: true,
         },
-        recipent: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        content: {
+        message: {
             type: String,
             required: true,
-        },
-        read: {
-            type: Boolean,
-            default: false,
         },
     },
     { timestamps: true },
